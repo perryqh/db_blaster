@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/perryqh/nio4r
+  revision: 335c8ae7b6bbcb8d3567559b2c7625e112e4ebbe
+  branch: bump-rubo-target-version
+  specs:
+    nio4r (2.5.7)
+
 PATH
   remote: .
   specs:
@@ -107,7 +114,6 @@ GEM
     method_source (0.9.2)
     mini_mime (1.1.0)
     minitest (5.14.4)
-    nio4r (2.5.7)
     nokogiri (1.11.7-x86_64-darwin)
       racc (~> 1.4)
     nokogiri (1.11.7-x86_64-linux)
@@ -241,6 +247,7 @@ DEPENDENCIES
   brakeman
   db_blaster!
   factory_bot_rails
+  nio4r!
   panolint
   pg
   pry-nav

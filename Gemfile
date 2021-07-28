@@ -6,6 +6,7 @@ git_source(:github) { |repo| "https://github.com/peryqh/#{repo}.git" }
 gemspec
 
 gem 'brakeman'
+gem 'nio4r', git: 'https://github.com/perryqh/nio4r', branch: 'bump-rubo-target-version'
 gem 'panolint'
 gem 'pg'
 gem 'pry-nav'
