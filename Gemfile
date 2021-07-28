@@ -8,6 +8,7 @@ gemspec
 gem 'brakeman'
 gem 'pg'
 gem 'pry-nav'
+gem 'rubocop'
 gem 'rubocop-rails'
 gem 'rubocop-rspec'
 

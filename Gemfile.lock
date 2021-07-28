@@ -230,6 +230,7 @@ DEPENDENCIES
   pry-nav
   rspec-its
   rspec-rails
+  rubocop
   rubocop-rails
   rubocop-rspec
   shoulda-matchers
