@@ -72,8 +72,9 @@ jobs:
         with:
           resultPath: coverage/.last_run.json
           token: ${{ secrets.GITHUB_TOKEN }}
-          failedThreshold: 90
+          failedThreshold: 100
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          file: coverage/index.html
