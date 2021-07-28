@@ -1,19 +1,43 @@
 # frozen_string_literal: true
 
+# Configuration class for providing credentials, topics, and customizations.
 module DbBlaster
   class Configuration
+    # The required configuration fields
     REQUIRED_FIELDS = %i[aws_access_key aws_access_secret aws_region sns_topic].freeze
 
     # The topic to which messages will be published
     attr_accessor :sns_topic
     attr_accessor :aws_access_key, :aws_access_secret, :aws_region
-    attr_accessor :source_tables # [{name: 'source_table_name', batch_size: 'optional_batch_size', ignored_columns: ['optional_ignored_columns']}]
 
-    # extra SNS message_attributes
-    # example: {'infra_id' => {data_type: 'String', value: '061'}}
+    # Global list of column names not to include in published SNS messages
+    # example: config.ignored_column_names = ['email', 'phone_number']
+    attr_accessor :ignored_column_names
+
+    # Optional
+    # If set, only publish tables specified.
+    # example: config.only_source_tables = ['posts', 'tags', 'comments']
+    attr_accessor :only_source_tables
+
+    # Optional
+    # Customize batch_size and/or ignored_columns
+    # example:
+    # config.source_table_options = [{ source_table_name: 'posts', batch_size: 100, ignored_columns: ['email'] },
+    #                                { source_table_name: 'comments', ignored_columns: ['tags'] }]
+    attr_accessor :source_table_options
+
+    # Optional
+    # Extra [SNS message_attributes](https://docs.aws.amazon.com/sns/latest/dg/sns-message-attributes.html)
+    # Attributes set here will be included in every published message
+    # example: config.extra_sns_message_attributes = {'infra_id' => {data_type: 'String', value: '061'}}
     attr_accessor :extra_sns_message_attributes
 
-    # raises error if a required field is not set
+    # Optional
+    # db_blaster will select and then publish `batch_size` rows at a time
+    # Default value is 100
+    attr_accessor :batch_size
+
+    # Raises error if a required field is not set
     def verify!
       no_values = REQUIRED_FIELDS.select do |attribute|
         send(attribute).nil? || send(attribute).strip.empty?
