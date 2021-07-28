@@ -11,8 +11,8 @@ jobs:
     name: Rubocop
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-ruby@v1
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
           bundler-cache: true
@@ -21,7 +21,7 @@ jobs:
   brakeman:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
@@ -42,8 +42,8 @@ jobs:
           POSTGRES_USER: ${{ env.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-ruby@v1
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
           bundler-cache: true
