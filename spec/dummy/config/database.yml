@@ -1,0 +1,7 @@
+development:
+  adapter: postgresql
+  database: db-blaster-dev
+
+test:
+  adapter: postgresql
+  database: db-blaster-test
