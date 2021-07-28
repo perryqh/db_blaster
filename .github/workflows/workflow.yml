@@ -70,6 +70,6 @@ jobs:
       - name: Simplecov Report - API
         uses: aki77/simplecov-report-action@v1
         with:
-          resultPath: api/coverage/.last_run.json
+          resultPath: coverage/.last_run.json
           token: ${{ secrets.GITHUB_TOKEN }}
           failedThreshold: 90
