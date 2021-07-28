@@ -9,6 +9,7 @@ AllCops:
   Exclude:
     - 'spec/dummy/**/*'
     - 'tmp/**/*'
+    - '/ruby/2.7.0/gems/**/*'
   TargetRubyVersion: 2.6.0
 
 Layout/LineLength:
