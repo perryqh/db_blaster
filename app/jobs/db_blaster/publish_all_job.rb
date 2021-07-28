@@ -1,3 +1,8 @@
+# frozen_string_literal: true
+
+# Job that will
+# 1) sync DbBlaster.configuration.source_tables with DbBlaster::SourceTable
+# 2) Enqueue PublishSourceTableJob for every source_table
 module DbBlaster
   class PublishAllJob < ApplicationJob
     queue_as 'default'

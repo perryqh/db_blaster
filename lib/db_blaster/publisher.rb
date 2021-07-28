@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# publish records to SNS topic
 module DbBlaster
   class Publisher
     attr_reader :source_table, :records

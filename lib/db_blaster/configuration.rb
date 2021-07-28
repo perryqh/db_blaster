@@ -13,6 +13,7 @@ module DbBlaster
     # example: {'infra_id' => {data_type: 'String', value: '061'}}
     attr_accessor :extra_sns_message_attributes
 
+    # raises error if a required field is not set
     def verify!
       no_values = REQUIRED_FIELDS.select do |attribute|
         send(attribute).nil? || send(attribute).strip.empty?

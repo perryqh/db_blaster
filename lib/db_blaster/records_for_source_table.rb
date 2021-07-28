@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Find records and yield them a `batch_size` at a time
 module DbBlaster
   class RecordsForSourceTable
     attr_reader :source_table, :block_on_find

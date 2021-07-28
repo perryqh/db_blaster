@@ -13,8 +13,9 @@ module DbBlaster
     end
 
     def execute
-      DbBlaster.configuration.verify!
+      DbBlaster.configuration.verify! # will raise error if required configurations are not set
 
+      # pessimistically lock row for the duration
       source_table.with_lock do
         RecordsForSourceTable.find(source_table) do |records|
           Publisher.publish(source_table, records)

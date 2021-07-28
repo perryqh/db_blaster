@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Executes PublishSourceTable for provided `source_table_id`
 module DbBlaster
   class PublishSourceTableJob < ApplicationJob
     queue_as 'default'
