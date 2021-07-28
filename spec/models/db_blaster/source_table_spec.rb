@@ -18,22 +18,6 @@ RSpec.describe DbBlaster::SourceTable do
       end
     end
 
-    describe '#sync' do
-      let(:configs) do
-        [DbBlaster::SourceTableConfiguration.new(source_table_name: 'restaurants', batch_size: 100, ignored_column_names: [:customers]),
-         DbBlaster::SourceTableConfiguration.new(source_table_name: 'parks', batch_size: 20, ignored_column_names: [:toys])]
-      end
-      let!(:source_table) { create(:db_blaster_source_table, name: 'cities') }
-
-      it 'syncs by provided configs' do
-        expect { described_class.sync(configs) }.to change {
-          described_class.all.pluck(:name).sort
-        }.to(%w[parks restaurants])
-        expect(described_class.all.pluck(:batch_size)).to match_array([20, 100])
-        expect(described_class.all.pluck(:ignored_columns)).to match_array([['customers'], ['toys']])
-      end
-    end
-
     context 'when name is not unique' do
       let(:name) { 'meetings' }
       let!(:pre_existing_source_table) { create(:db_blaster_source_table, name: 'Meetings') }

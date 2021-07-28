@@ -1,10 +1,13 @@
+# frozen_string_literal: true
+
+# Syncs tables derived from SourceTableConfigurationBuilder
+# with SourceTable rows
 module DbBlaster
   module Sync
     extend ActiveSupport::Concern
 
     class_methods do
       # Syncs configuration tables with db
-      # Consider moving towards ActiveRecord::Base.connection.tables in the future
       def sync(table_configs)
         SourceTable.where.not(name: table_configs.collect(&:source_table_name)).delete_all
 
