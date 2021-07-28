@@ -9,8 +9,7 @@ AllCops:
   Exclude:
     - 'spec/dummy/**/*'
     - 'tmp/**/*'
-    - '/ruby/2.7.0/gems/**/*'
-  TargetRubyVersion: 2.6.0
+  TargetRubyVersion: 2.7.4
 
 Layout/LineLength:
   Max: 120
@@ -34,11 +33,6 @@ Layout/HashAlignment:
 Lint/InterpolationCheck:
   Exclude:
     - 'spec/**/*.rb'
-
-Lint/UselessAccessModifier:
-  MethodCreatingMethods:
-    - 'def_matcher'
-    - 'def_node_matcher'
 
 Lint/BooleanSymbol:
   Enabled: false
