@@ -47,7 +47,7 @@ Shoulda::Matchers.configure do |config|
 end
 
 def mountains_insert_sql(name, height, updated_at)
-  <<-SQL
+  <<-SQL.squish
       INSERT INTO MOUNTAINS (name, height, updated_at, created_at) 
       VALUES ('#{name}', #{height}, '#{updated_at.to_s(:db)}', '#{DateTime.now.to_s(:db)}')
   SQL
