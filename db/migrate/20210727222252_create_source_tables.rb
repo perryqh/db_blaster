@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateSourceTables < ActiveRecord::Migration[6.1]
   def change
     create_table :db_blaster_source_tables do |t|

@@ -15,7 +15,9 @@ RSpec.describe DbBlaster::Configuration do
       end
 
       it 'raises informative error' do
-        expect { configuration.verify! }.to raise_error('missing configuration values for [aws_access_key, aws_access_secret, aws_region, sns_topic]')
+        expect do
+          configuration.verify!
+        end.to raise_error('missing configuration values for [aws_access_key, aws_access_secret, aws_region, sns_topic]')
       end
     end
 

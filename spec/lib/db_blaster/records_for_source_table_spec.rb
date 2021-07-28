@@ -13,9 +13,9 @@ RSpec.describe DbBlaster::RecordsForSourceTable do
 
   let!(:source_table) do
     create(:db_blaster_source_table, name: name,
-                                         batch_size: batch_size,
-                                         ignored_columns: ['ignored_columns'],
-                                         last_published_updated_at: last_published_updated_at)
+                                     batch_size: batch_size,
+                                     ignored_columns: ['ignored_columns'],
+                                     last_published_updated_at: last_published_updated_at)
   end
   let(:batch_size) { 10 }
   let(:name) { 'db_blaster_source_tables' }

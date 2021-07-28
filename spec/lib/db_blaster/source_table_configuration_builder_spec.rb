@@ -56,7 +56,8 @@ RSpec.describe DbBlaster::SourceTableConfigurationBuilder do
     its(:table_names_for_configuration) { is_expected.to match_array(%w[mountains trails db_blaster_source_tables]) }
 
     it 'builds source_table_configuration' do
-      expect(builder.build_all.collect(&:source_table_name)).to match_array(%w[mountains trails db_blaster_source_tables])
+      expect(builder.build_all.collect(&:source_table_name)).to match_array(%w[mountains trails
+                                                                               db_blaster_source_tables])
     end
 
     context 'with ignored_column_names' do
@@ -65,8 +66,8 @@ RSpec.describe DbBlaster::SourceTableConfigurationBuilder do
       it 'builds source_table_configuration' do
         expect(builder.build_all.collect(&:update_attributes)
                       .all? do |config|
-          config == { ignored_columns: ['phone_number'], batch_size: configuration.default_batch_size }
-        end).to be_truthy
+                 config == { ignored_columns: ['phone_number'], batch_size: configuration.default_batch_size }
+               end).to be_truthy
       end
     end
   end
@@ -81,7 +82,9 @@ RSpec.describe DbBlaster::SourceTableConfigurationBuilder do
     end
     let(:batch_size) { 75 }
     let(:ignored_column_names) { ['name'] }
-    let(:source_table_options) { [{ source_table_name: 'trails', ignored_column_names: ['phone_number'], batch_size: 50 }] }
+    let(:source_table_options) do
+      [{ source_table_name: 'trails', ignored_column_names: ['phone_number'], batch_size: 50 }]
+    end
 
     it 'properly overrides options' do
       expect(trail_configuration.update_attributes).to eq(ignored_columns: ['phone_number'], batch_size: 50)

@@ -15,7 +15,7 @@ module DbBlaster
 
     def build_all
       @build_all ||= table_names_for_configuration
-                       .collect(&method(:build_configuration))
+                     .collect(&method(:build_configuration))
     end
 
     def build_configuration(source_table_name)

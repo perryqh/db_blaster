@@ -55,6 +55,6 @@ DbBlaster.configure do |config|
   config.only_source_tables = ['mountains']
 end
 
-def create_mountain(name: 'Sandia', height: 12000, updated_at: 1.day.ago)
+def create_mountain(name: 'Sandia', height: 12_000, updated_at: 1.day.ago)
   ActiveRecord::Base.connection.execute(mountains_insert_sql(name, height, updated_at))
 end
