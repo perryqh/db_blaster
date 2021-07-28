@@ -26,7 +26,6 @@ jobs:
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
           bundler-cache: true
-          working-directory: ./api
       - name: brakeman report
         run: |
           bundle exec brakeman
