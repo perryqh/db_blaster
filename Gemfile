@@ -10,6 +10,7 @@ gem 'panolint'
 gem 'pg'
 gem 'pry-nav'
 gem 'rubocop'
+gem 'rubocop-discourse'
 gem 'rubocop-rails'
 gem 'rubocop-rspec'
 
