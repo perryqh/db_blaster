@@ -18,7 +18,13 @@ DbBlaster.configure do |config|
   # example: config.ignored_column_names = ['email', 'phone_number']
   # config.ignored_column_names = ['email', 'phone_number']
 
-  config.source_tables = [{ name: 'table-1',
-                            ignored_columns: [],
-                            batch_size: 100 }] # tables to be pushed to SNS
+  # Optional
+  # If set, only publish tables specified.
+  # config.only_source_tables = ['posts', 'tags', 'comments']
+
+  # Optional
+  # Customize batch_size and/or ignored_columns
+  # example:
+  # config.source_table_options = [{ source_table_name: 'posts', batch_size: 100, ignored_column_names: ['email'] },
+  #                                { source_table_name: 'comments', ignored_column_names: ['tags'] }]
 end

@@ -11,12 +11,16 @@ RSpec.describe DbBlaster::PublishAllJob, type: :job do
 
   describe '#perform' do
     let!(:existing_source_table) { create(:db_blaster_source_table, name: 'mountains') }
+    let(:expected_sync) do
+      DbBlaster::SourceTableConfigurationBuilder
+        .build_all(DbBlaster.configuration)
+    end
 
     before do
       allow(DbBlaster::SourceTable).to receive(:sync)
       create_mountain
       DbBlaster.configure do |config|
-        config.source_tables = [{ name: 'taco-bar' }]
+        config.only_source_tables = ['tacos']
       end
     end
 
@@ -29,7 +33,8 @@ RSpec.describe DbBlaster::PublishAllJob, type: :job do
 
     it 'syncs source table' do
       described_class.new.perform
-      expect(DbBlaster::SourceTable).to have_received(:sync).with(DbBlaster.configuration.source_tables)
+      expect(DbBlaster::SourceTable).to have_received(:sync)
+                                          .with(expected_sync)
     end
   end
 end

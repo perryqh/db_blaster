@@ -22,8 +22,8 @@ module DbBlaster
     # Optional
     # Customize batch_size and/or ignored_columns
     # example:
-    # config.source_table_options = [{ source_table_name: 'posts', batch_size: 100, ignored_columns: ['email'] },
-    #                                { source_table_name: 'comments', ignored_columns: ['tags'] }]
+    # config.source_table_options = [{ source_table_name: 'posts', batch_size: 100, ignored_column_names: ['email'] },
+    #                                { source_table_name: 'comments', ignored_column_names: ['tags'] }]
     attr_accessor :source_table_options
 
     # Optional
@@ -36,6 +36,14 @@ module DbBlaster
     # db_blaster will select and then publish `batch_size` rows at a time
     # Default value is 100
     attr_accessor :batch_size
+
+    def global_ignore_tables
+      %w[schema_migrations ar_internal_metadata]
+    end
+
+    def default_batch_size
+      100
+    end
 
     # Raises error if a required field is not set
     def verify!

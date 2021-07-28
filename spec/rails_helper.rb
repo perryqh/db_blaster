@@ -52,7 +52,7 @@ DbBlaster.configure do |config|
   config.aws_access_key = 'aws key'
   config.aws_access_secret = 'shhhh'
   config.aws_region = 'us-west-1'
-  config.source_tables = [{name: 'mountains', batch_size: 10, ignored_columns: []}]
+  config.only_source_tables = ['mountains']
 end
 
 def create_mountain(name: 'Sandia', height: 12000, updated_at: 1.day.ago)
