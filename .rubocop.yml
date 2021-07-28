@@ -8,11 +8,6 @@ AllCops:
   Exclude:
     - 'spec/dummy/**/*'
     - 'tmp/**/*'
-  TargetRubyVersion: 2.6.3
-  RSpec:
-    Patterns:
-    - _spec.rb
-    - "(?:^|/)spec/"
   RSpec/FactoryBot:
     Patterns:
     - spec/factories/**/*.rb
