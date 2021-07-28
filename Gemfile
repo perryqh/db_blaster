@@ -6,6 +6,7 @@ git_source(:github) { |repo| "https://github.com/peryqh/#{repo}.git" }
 gemspec
 
 gem 'brakeman'
+gem 'panolint'
 gem 'pg'
 gem 'pry-nav'
 gem 'rubocop'
