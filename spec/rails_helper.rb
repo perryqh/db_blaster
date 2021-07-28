@@ -2,6 +2,7 @@
 
 require 'simplecov'
 SimpleCov.start do
+  minimum_coverage 100
   add_filter '/spec_helper.rb'
   add_filter '/dummy/'
 end
