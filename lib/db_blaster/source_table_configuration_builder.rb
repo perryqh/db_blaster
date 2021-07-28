@@ -44,7 +44,7 @@ module DbBlaster
     end
 
     def table_names_for_configuration
-      if !configuration.only_source_tables.nil? && configuration.only_source_tables.length.positive?
+      if configuration.only_source_tables&.length&.positive?
         available_tables & configuration.only_source_tables
       else
         available_tables
