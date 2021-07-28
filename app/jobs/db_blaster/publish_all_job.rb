@@ -4,6 +4,7 @@
 # 1) sync configuration with DbBlaster::SourceTable
 # 2) Enqueue PublishSourceTableJob for every source_table
 module DbBlaster
+  # Enqueues PublishSourceTableJob for every source-table
   class PublishAllJob < ApplicationJob
     queue_as 'default'
 

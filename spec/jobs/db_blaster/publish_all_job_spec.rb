@@ -34,7 +34,7 @@ RSpec.describe DbBlaster::PublishAllJob, type: :job do
     it 'syncs source table' do
       described_class.new.perform
       expect(DbBlaster::SourceTable).to have_received(:sync)
-                                          .with(expected_sync)
+        .with(expected_sync)
     end
   end
 end

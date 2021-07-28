@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Configuration class for providing credentials, topics, and customizations.
 module DbBlaster
+  # Configuration class for providing credentials, topics, and customizations.
   class Configuration
     # The required configuration fields
     REQUIRED_FIELDS = %i[aws_access_key aws_access_secret aws_region sns_topic].freeze

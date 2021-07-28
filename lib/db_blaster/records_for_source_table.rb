@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Find records and yield them a `batch_size` at a time
 module DbBlaster
+  # Find records and yield them a `batch_size` at a time
   class RecordsForSourceTable
     attr_reader :source_table, :block_on_find
 
@@ -43,11 +43,9 @@ module DbBlaster
     def where
       return '' unless source_table.last_published_updated_at
 
-      "WHERE updated_at > '#{source_table.last_published_updated_at.to_s(:db)}'"
-    end
-
-    def formatted_timestamp
-      "'#{source_table.last_published_updated_at}' at time zone 'utc'"
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        ['WHERE updated_at > :updated_at', { updated_at: source_table.last_published_updated_at.to_s(:db) }]
+      )
     end
   end
 end

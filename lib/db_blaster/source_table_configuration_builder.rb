@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module DbBlaster
+  # Builds source-table configurations based off the tables in the
+  # current database and the provided DbBlaster::Configuration
   class SourceTableConfigurationBuilder
     attr_reader :configuration, :source_table_configurations
 
@@ -15,7 +17,7 @@ module DbBlaster
 
     def build_all
       @build_all ||= table_names_for_configuration
-                       .collect(&method(:build_configuration))
+                     .collect(&method(:build_configuration))
     end
 
     def build_configuration(source_table_name)
@@ -50,7 +52,7 @@ module DbBlaster
     end
 
     def available_tables
-      @tables_present_in_db ||= ActiveRecord::Base.connection.tables - configuration.global_ignore_tables
+      @available_tables ||= ActiveRecord::Base.connection.tables - configuration.global_ignore_tables
     end
   end
 end

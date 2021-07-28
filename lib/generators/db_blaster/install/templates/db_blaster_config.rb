@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 DbBlaster.configure do |config|
   # SNS topic to receive database changes
   config.sns_topic = 'the-topic'

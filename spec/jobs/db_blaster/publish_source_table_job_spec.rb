@@ -9,6 +9,7 @@ RSpec.describe DbBlaster::PublishSourceTableJob do
 
   describe '#perform' do
     subject(:perform) { described_class.new.perform(source_table_id) }
+
     let(:source_table) { create(:db_blaster_source_table) }
 
     before do
@@ -20,7 +21,7 @@ RSpec.describe DbBlaster::PublishSourceTableJob do
 
       it 'does not attempt to execute PublishSourceTable' do
         perform
-        expect(DbBlaster::PublishSourceTable).to_not have_received(:execute)
+        expect(DbBlaster::PublishSourceTable).not_to have_received(:execute)
       end
     end
 

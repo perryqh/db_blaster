@@ -13,26 +13,26 @@ RSpec.describe DbBlaster::RecordsForSourceTable do
 
   let!(:source_table) do
     create(:db_blaster_source_table, name: name,
-                                         batch_size: batch_size,
-                                         ignored_columns: ['ignored_columns'],
-                                         last_published_updated_at: last_published_updated_at)
+                                     batch_size: batch_size,
+                                     ignored_columns: ['ignored_columns'],
+                                     last_published_updated_at: last_published_updated_at)
   end
   let(:batch_size) { 10 }
   let(:name) { 'db_blaster_source_tables' }
   let(:last_published_updated_at) { nil }
 
   it do
-    is_expected.to eq([{ created_at: source_table.created_at.utc.strftime('%Y-%m-%dT%H:%M:%S.%LZ'),
-                         id: source_table.id,
-                         name: source_table.name,
-                         last_published_updated_at: nil,
-                         batch_size: batch_size,
-                         updated_at: source_table.updated_at.utc.strftime('%Y-%m-%dT%H:%M:%S.%LZ') }
+    expect(records).to eq([{ created_at: source_table.created_at.utc.strftime('%Y-%m-%dT%H:%M:%S.%LZ'),
+                             id: source_table.id,
+                             name: source_table.name,
+                             last_published_updated_at: nil,
+                             batch_size: batch_size,
+                             updated_at: source_table.updated_at.utc.strftime('%Y-%m-%dT%H:%M:%S.%LZ') }
                          .stringify_keys])
   end
 
   context 'when last_published_updated_at is set' do
-    let(:last_published_updated_at) { Time.now }
+    let(:last_published_updated_at) { Time.zone.now }
     let(:name) { 'mountains' }
 
     before do

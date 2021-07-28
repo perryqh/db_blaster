@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# Syncs tables derived from SourceTableConfigurationBuilder
-# with SourceTable rows
 module DbBlaster
+  # Syncs tables derived from SourceTableConfigurationBuilder
+  # with SourceTable rows
   module Sync
     extend ActiveSupport::Concern
 
@@ -13,7 +13,7 @@ module DbBlaster
 
         table_configs.each do |config|
           source_table = SourceTable.where(name: config.source_table_name).first_or_create
-          source_table.update!(config.update_attributes)
+          source_table.update!(config.update_params)
         end
       end
     end
