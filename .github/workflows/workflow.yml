@@ -41,6 +41,7 @@ jobs:
         env:
           POSTGRES_USER: ${{ env.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
@@ -52,9 +53,10 @@ jobs:
       - name: Install dependencies
         run: |
           gem install bundler
-          bundler install
+          bundle install
       - name: Create database
         run: |
+          cp spec/dummy/config/database.yml.github-actions spec/dummy/config/database.yml
           bundler exec rails db:create RAILS_ENV=test
           bundler exec rails db:migrate RAILS_ENV=test
       - name: Run tests
@@ -65,3 +67,9 @@ jobs:
         with:
           name: coverage-report
           path: coverage
+      - name: Simplecov Report - API
+        uses: aki77/simplecov-report-action@v1
+        with:
+          resultPath: api/coverage/.last_run.json
+          token: ${{ secrets.GITHUB_TOKEN }}
+          failedThreshold: 90

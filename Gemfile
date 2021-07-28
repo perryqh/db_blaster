@@ -6,6 +6,8 @@ git_source(:github) { |repo| "https://github.com/peryqh/#{repo}.git" }
 gemspec
 
 gem 'brakeman'
+# for some reason, github actions 'rubocop-test' was looking at nio4r/.rubocop.yml, which
+# is referencing an invalid ruby version
 gem 'nio4r', git: 'https://github.com/perryqh/nio4r', branch: 'bump-rubo-target-version'
 gem 'panolint'
 gem 'pg'
