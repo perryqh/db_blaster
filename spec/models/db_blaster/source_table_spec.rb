@@ -7,6 +7,7 @@ RSpec.describe DbBlaster::SourceTable do
     subject(:source_table) { build(:db_blaster_source_table, name: name) }
 
     let(:name) { 'mountains' }
+
     its(:batch_size) { is_expected.to eq(100) }
 
     context 'when name is blank' do
@@ -14,6 +15,10 @@ RSpec.describe DbBlaster::SourceTable do
 
       it 'is invalid' do
         expect(source_table.valid?).to be_falsey
+      end
+
+      it 'adds error to :name' do
+        source_table.valid?
         expect(source_table.errors[:name]).to eq(["can't be blank"])
       end
     end
@@ -24,6 +29,10 @@ RSpec.describe DbBlaster::SourceTable do
 
       it 'is invalid' do
         expect(source_table.valid?).to be_falsey
+      end
+
+      it 'adds error to :name' do
+        source_table.valid?
         expect(source_table.errors[:name]).to eq(['has already been taken'])
       end
     end

@@ -9,8 +9,11 @@ RSpec.describe DbBlaster::Sync do
 
   describe '#sync' do
     let(:configs) do
-      [DbBlaster::SourceTableConfiguration.new(source_table_name: 'restaurants', batch_size: 100, ignored_column_names: [:customers]),
-       DbBlaster::SourceTableConfiguration.new(source_table_name: 'parks', batch_size: 20,
+      [DbBlaster::SourceTableConfiguration.new(source_table_name: 'restaurants',
+                                               batch_size: 100,
+                                               ignored_column_names: [:customers]),
+       DbBlaster::SourceTableConfiguration.new(source_table_name: 'parks',
+                                               batch_size: 20,
                                                ignored_column_names: [:toys])]
     end
     let!(:source_table) { create(:db_blaster_source_table, name: 'cities') }
@@ -19,7 +22,15 @@ RSpec.describe DbBlaster::Sync do
       expect { syncer.sync(configs) }.to change {
         syncer.all.pluck(:name).sort
       }.to(%w[parks restaurants])
+    end
+
+    it 'syncs batch_size' do
+      syncer.sync(configs)
       expect(syncer.all.pluck(:batch_size)).to match_array([20, 100])
+    end
+
+    it 'syncs ignored columns' do
+      syncer.sync(configs)
       expect(syncer.all.pluck(:ignored_columns)).to match_array([['customers'], ['toys']])
     end
   end

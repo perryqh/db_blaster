@@ -10,6 +10,8 @@ require 'db_blaster/publisher'
 require 'db_blaster/publish_source_table'
 require 'db_blaster/records_for_source_table'
 
+# Top-level module that serves as an entry point
+# into the engine gem
 module DbBlaster
   class << self
     def configuration

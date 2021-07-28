@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module DbBlaster
+  # PORO for source-table-configuration fields
   class SourceTableConfiguration
     attr_reader :source_table_name, :batch_size, :ignored_column_names
 
@@ -10,7 +11,7 @@ module DbBlaster
       end
     end
 
-    def update_attributes
+    def update_params
       { batch_size: batch_size,
         ignored_columns: ignored_column_names }
     end

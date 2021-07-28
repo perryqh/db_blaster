@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Find records and yield them a `batch_size` at a time
 module DbBlaster
+  # Find records and yield them a `batch_size` at a time
   class RecordsForSourceTable
     attr_reader :source_table, :block_on_find
 
@@ -44,7 +44,7 @@ module DbBlaster
       return '' unless source_table.last_published_updated_at
 
       ActiveRecord::Base.sanitize_sql_for_conditions(
-        ['WHERE updated_at > :updated_at', updated_at: source_table.last_published_updated_at.to_s(:db)]
+        ['WHERE updated_at > :updated_at', { updated_at: source_table.last_published_updated_at.to_s(:db) }]
       )
     end
   end

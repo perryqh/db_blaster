@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module DbBlaster
+  # Given a `source_table` providing the table name,
+  # finds rows in `batch_size` chunks that are published to SNS
   class PublishSourceTable
     attr_reader :source_table
 

@@ -2,6 +2,7 @@
 
 # publish records to SNS topic
 module DbBlaster
+  # Publishes records to AWS SNS
   class Publisher
     attr_reader :source_table, :records
 

@@ -2,6 +2,8 @@
 
 module DbBlaster
   module Generators
+    # Generator to copy a sample db_blaster_config.rb to the
+    # rails app's config/initializer directory
     class InstallGenerator < ::Rails::Generators::Base
       source_root File.expand_path('templates', __dir__)
 

@@ -2,6 +2,7 @@
 
 # Executes PublishSourceTable for provided `source_table_id`
 module DbBlaster
+  # Publishes changed rows to SNS
   class PublishSourceTableJob < ApplicationJob
     queue_as 'default'
 

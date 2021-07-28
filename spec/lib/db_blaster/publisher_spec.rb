@@ -40,6 +40,7 @@ RSpec.describe DbBlaster::Publisher do
       expect(resource).to have_received(:topic).with(DbBlaster.configuration.sns_topic)
     end
 
+    # rubocop:disable RSpec/MultipleExpectations
     it 'publishes' do
       publish
       expect(topic).to have_received(:publish) do |args|
@@ -48,6 +49,7 @@ RSpec.describe DbBlaster::Publisher do
                                                   { data_type: 'String', string_value: source_table.name })
       end
     end
+    # rubocop:enable RSpec/MultipleExpectations
 
     context 'with extra_sns_message_attributes' do
       before do
@@ -62,15 +64,17 @@ RSpec.describe DbBlaster::Publisher do
         end
       end
 
+      # rubocop:disable RSpec/MultipleExpectations
       it 'publishes with extra attributes' do
         publish
         expect(topic).to have_received(:publish) do |args|
-          expect(args[:message]).to eq(records.to_json)
-          expect(args[:message_attributes]).to eq('source_table' =>
-                                                    { data_type: 'String', string_value: source_table.name },
-                                                  'infra_id' => { data_type: 'String', string_value: '061' })
+          expect(args).to eq(message: records.to_json,
+                             message_attributes: { 'source_table' =>
+                                                     { data_type: 'String', string_value: source_table.name },
+                                                   'infra_id' => { data_type: 'String', string_value: '061' } })
         end
       end
+      # rubocop:enable RSpec/MultipleExpectations
     end
   end
 end

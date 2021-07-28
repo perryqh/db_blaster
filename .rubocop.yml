@@ -1,0 +1,88 @@
+# This is the configuration used to check the rubocop source code.
+
+require:
+  - rubocop-rspec
+  - rubocop-rails
+
+AllCops:
+  Exclude:
+    - 'spec/dummy/**/*'
+    - 'tmp/**/*'
+  TargetRubyVersion: 2.6.3
+  RSpec:
+    Patterns:
+    - _spec.rb
+    - "(?:^|/)spec/"
+  RSpec/FactoryBot:
+    Patterns:
+    - spec/factories/**/*.rb
+
+Layout/LineLength:
+  Max: 120
+
+# Trailing white space is meaningful in code examples
+Layout/TrailingWhitespace:
+  AllowInHeredoc: true
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - 'spec/**/*.rb'
+
+Layout/HashAlignment:
+  EnforcedHashRocketStyle:
+    - key
+    - table
+  EnforcedColonStyle:
+    - key
+    - table
+
+Lint/InterpolationCheck:
+  Exclude:
+    - 'spec/**/*.rb'
+
+Lint/UselessAccessModifier:
+  MethodCreatingMethods:
+    - 'def_matcher'
+    - 'def_node_matcher'
+
+Lint/BooleanSymbol:
+  Enabled: false
+
+RSpec/LetSetup:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'Rakefile'
+    - '**/*.rake'
+    - 'spec/**/*.rb'
+    - '**/*.gemspec'
+
+Metrics/ModuleLength:
+  Exclude:
+    - 'spec/**/*.rb'
+
+RSpec/PredicateMatcher:
+  EnforcedStyle: explicit
+
+RSpec/MessageSpies:
+  Enabled: false
+
+RSpec/NotToNot:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Max: 7
+
+RSpec/NestedGroups:
+  Max: 7
+  
+RSpec/MultipleMemoizedHelpers:
+  Max: 15
+
+Rails/HttpPositionalArguments:
+  Enabled: false
+
+Naming/RescuedExceptionsVariableName:
+  Enabled: false
+

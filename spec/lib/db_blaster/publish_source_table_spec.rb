@@ -26,6 +26,7 @@ RSpec.describe DbBlaster::PublishSourceTable do
         .to(mountains.last['updated_at'])
     end
 
+    # rubocop:disable RSpec/MultipleExpectations
     it 'publishes records' do
       execute
       expect(DbBlaster::Publisher).to have_received(:publish) do |in_source_table, records|
@@ -34,5 +35,6 @@ RSpec.describe DbBlaster::PublishSourceTable do
         expect(records.first['id']).to eq(mountains.first['id'])
       end
     end
+    # rubocop:enable RSpec/MultipleExpectations
   end
 end
