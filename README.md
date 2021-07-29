@@ -1,3 +1,4 @@
+[![codecov](https://codecov.io/gh/perryqh/db_blaster/branch/master/graph/badge.svg?token=ZMJVDAGX3K)](https://codecov.io/gh/perryqh/db_blaster)
 # DbBlaster
 ![Image of DB to SNS](https://lucid.app/publicSegments/view/c70feed3-2f48-46ee-8734-423474488feb/image.png)
 
