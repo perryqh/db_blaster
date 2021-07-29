@@ -3,24 +3,24 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
-      "fingerprint": "99233b028086d31835e978d5a46eed0be696db451fdc0a04b2d9a986fc1e60f1",
+      "fingerprint": "ff28c815e8e3a87ddd40ae58e1fbba7611d9c971f163164ebd9598fa84c76e2b",
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "lib/db_blaster/records_for_source_table.rb",
-      "line": 31,
+      "line": 32,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "ActiveRecord::Base.connection.execute(\"#{\"SELECT * FROM #{source_table.name} #{where} ORDER BY updated_at ASC LIMIT #{source_table.batch_size}\"} OFFSET #{0}\")",
+      "code": "ActiveRecord::Base.connection.execute(\"#{\"SELECT * FROM #{source_table_name} #{where} ORDER BY updated_at ASC LIMIT #{source_table.batch_size}\"} OFFSET #{0}\")",
       "render_path": null,
       "location": {
         "type": "method",
         "class": "DbBlaster::RecordsForSourceTable",
         "method": "find_records_in_batches"
       },
-      "user_input": "source_table.name",
+      "user_input": "source_table_name",
       "confidence": "Medium",
-      "note": "source_table.name can only be an existing database table"
+      "note": "The interpolated values are properly verified"
     }
   ],
-  "updated": "2021-07-28 14:43:32 -0600",
+  "updated": "2021-07-29 10:40:49 -0600",
   "brakeman_version": "5.1.1"
 }
