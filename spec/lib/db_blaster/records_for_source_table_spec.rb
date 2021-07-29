@@ -28,7 +28,7 @@ RSpec.describe DbBlaster::RecordsForSourceTable do
                              last_published_updated_at: nil,
                              batch_size: batch_size,
                              updated_at: source_table.updated_at.utc.strftime('%Y-%m-%dT%H:%M:%S.%LZ') }
-                         .stringify_keys])
+                             .stringify_keys])
   end
 
   context 'when last_published_updated_at is set' do
@@ -54,5 +54,13 @@ RSpec.describe DbBlaster::RecordsForSourceTable do
     end
 
     its(:length) { is_expected.to eq(12) }
+  end
+
+  context 'when source_table.name is not a table in the db' do
+    let(:name) { 'notganotganotgoingtoworkhereanymore' }
+
+    it 'raises error' do
+      expect { records }.to raise_error("source_table.name: '#{name}' does not exist!")
+    end
   end
 end
