@@ -16,5 +16,4 @@ gem 'rubocop'
 gem 'rubocop-discourse'
 gem 'rubocop-rails'
 gem 'rubocop-rspec'
-
-gem 'simplecov', require: false, group: :test
+gem 'simplecov', require: false
