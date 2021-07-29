@@ -1,4 +1,4 @@
-[![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/perryqh/be2fa5413124206272dbc700f3201f5a/raw/db_blaster__<branch>.json)]
+![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/perryqh/be2fa5413124206272dbc700f3201f5a/raw/db_blaster__<branch>.json)
 
 # Description
 
