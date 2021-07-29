@@ -67,7 +67,7 @@ jobs:
         with:
           name: coverage-report
           path: coverage
-      - name: Simplecov Report - API
+      - name: Simplecov Report
         uses: aki77/simplecov-report-action@v1
         with:
           resultPath: coverage/.last_run.json
