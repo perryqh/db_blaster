@@ -75,17 +75,13 @@ jobs:
           resultPath: coverage/.last_run.json
           token: ${{ secrets.GITHUB_TOKEN }}
           failedThreshold: 100
-      - name: Find Test Coverage %
-        run: |
-          COVERAGE_PERCENTAGE = "$(cat coverage/.last_run.json | jq -r '.result.line')"
-          echo "COVERAGE_PERCENTAGE=$(COVERAGE_PERCENTAGE)" >> $GITHUB_ENV
       - name: Create Awesome Badge
         uses: schneegans/dynamic-badges-action@v1.1.0
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: be2fa5413124206272dbc700f3201f5a
           filename: db_blaster__.json
-          label: Hello
-          message: ${{ env.COVERAGE_PERCENTAGE }}%
+          label: Test Coverage
+          message: ${{ "$(cat coverage/.last_run.json | jq -r '.result.line')%" }}
           color: orange
 
