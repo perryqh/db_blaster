@@ -11,3 +11,4 @@
 /spec/dummy/config/database.yml
 .byebug_history
 coverage
+rails_best_practices_output.html
