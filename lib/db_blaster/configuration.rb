@@ -37,10 +37,6 @@ module DbBlaster
     # Default value is 100
     attr_accessor :batch_size
 
-    def global_ignore_tables
-      %w[schema_migrations ar_internal_metadata]
-    end
-
     def default_batch_size
       100
     end

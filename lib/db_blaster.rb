@@ -3,6 +3,7 @@
 require 'aws-sdk-sns'
 require 'db_blaster/version'
 require 'db_blaster/engine'
+require 'db_blaster/available_tables'
 require 'db_blaster/configuration'
 require 'db_blaster/source_table_configuration'
 require 'db_blaster/source_table_configuration_builder'
