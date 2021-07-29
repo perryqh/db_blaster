@@ -50,6 +50,8 @@ jobs:
           bundler-cache: true
       - name: Install postgres client
         run: sudo apt-get install libpq-dev
+      - name: Install jq for JSON parsing
+        run: sudo apt-get install jq
       - name: Install dependencies
         run: |
           gem install bundler
@@ -73,8 +75,17 @@ jobs:
           resultPath: coverage/.last_run.json
           token: ${{ secrets.GITHUB_TOKEN }}
           failedThreshold: 100
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
+      - name: Find Test Coverage %
+        run: |
+          echo "TEST_COVERAGE=$(echo "`cat coverage/.last_run.json | jq -r .result.line`")" >> $GITHUB_ENV
+        id: find-test-coverage
+      - name: Create Awesome Badge
+        uses: schneegans/dynamic-badges-action@v1.1.0
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage/.resultset.json
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: be2fa5413124206272dbc700f3201f5a
+          filename: db_blaster__${{ github.event.pull_request.head.ref }}.json
+          label: Test Coverage
+          message: ${{ env.TEST_COVERAGE }}%
+          color: green
+
