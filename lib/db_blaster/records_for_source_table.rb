@@ -3,6 +3,7 @@
 module DbBlaster
   # Find records and yield them a `batch_size` at a time
   class RecordsForSourceTable
+    include AvailableTables
     attr_reader :source_table, :block_on_find
 
     def initialize(source_table, &block)
@@ -24,7 +25,7 @@ module DbBlaster
     private
 
     def find_records_in_batches
-      sql = "SELECT * FROM #{source_table.name} #{where} ORDER BY updated_at ASC LIMIT #{source_table.batch_size}"
+      sql = "SELECT * FROM #{source_table_name} #{where} ORDER BY updated_at ASC LIMIT #{source_table.batch_size}"
       offset = 0
 
       loop do
@@ -38,6 +39,16 @@ module DbBlaster
 
     def filter_columns(selected_row)
       selected_row.except(*source_table.ignored_columns)
+    end
+
+    def source_table_name
+      raise invalid_source_table_message unless available_tables.include?(source_table.name)
+
+      source_table.name
+    end
+
+    def invalid_source_table_message
+      "source_table.name: '#{source_table.name}' does not exist!"
     end
 
     def where

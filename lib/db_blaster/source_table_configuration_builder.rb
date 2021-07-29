@@ -4,6 +4,7 @@ module DbBlaster
   # Builds source-table configurations based off the tables in the
   # current database and the provided DbBlaster::Configuration
   class SourceTableConfigurationBuilder
+    include AvailableTables
     attr_reader :configuration, :source_table_configurations
 
     def initialize(configuration)
@@ -49,10 +50,6 @@ module DbBlaster
       else
         available_tables
       end
-    end
-
-    def available_tables
-      @available_tables ||= ActiveRecord::Base.connection.tables - configuration.global_ignore_tables
     end
   end
 end
