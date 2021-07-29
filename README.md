@@ -1,6 +1,6 @@
 [![codecov](https://codecov.io/gh/perryqh/db_blaster/branch/master/graph/badge.svg?token=ZMJVDAGX3K)](https://codecov.io/gh/perryqh/db_blaster)
 # DbBlaster
-![Image of DB to SNS](https://lucid.app/publicSegments/view/c70feed3-2f48-46ee-8734-423474488feb/image.png)
+[![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/perryqh/be2fa5413124206272dbc700f3201f5a/raw/db_blaster__heads_main.json)]
 
 DbBlaster publishes changed database rows to AWS SNS. The first time `DbBlaster::PublishAllJob.perform_later` is ran,
 the entire database will be incrementally published to SNS. Subsequent runs will publish rows whose `updated_at` column
