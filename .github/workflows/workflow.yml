@@ -75,7 +75,9 @@ jobs:
           resultPath: coverage/.last_run.json
           token: ${{ secrets.GITHUB_TOKEN }}
           failedThreshold: 100
-
+      - name: Find Test Coverage %
+        run: |
+          echo "TEST_COVERAGE=$(echo "`cat coverage/.last_run.json | jq -r .result.line`")" >> $GITHUB_ENV
         id: find-test-coverage
       - name: Create Awesome Badge
         uses: schneegans/dynamic-badges-action@v1.1.0
