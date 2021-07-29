@@ -73,8 +73,13 @@ jobs:
           resultPath: coverage/.last_run.json
           token: ${{ secrets.GITHUB_TOKEN }}
           failedThreshold: 100
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
+      - name: Create Awesome Badge
+        uses: schneegans/dynamic-badges-action@v1.1.0
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage/.resultset.json
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: be2fa5413124206272dbc700f3201f5a
+          filename: db_blaster__.json
+          label: Hello
+          message: World
+          color: orange
+
