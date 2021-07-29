@@ -86,6 +86,6 @@ jobs:
           gistID: be2fa5413124206272dbc700f3201f5a
           filename: db_blaster__.json
           label: Test Coverage
-          message: ${{ env.TEST_COVERAGE }}
+          message: ${{ env.TEST_COVERAGE }}%
           color: green
 
