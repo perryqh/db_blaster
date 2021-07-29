@@ -1,3 +1,4 @@
+[![codecov](https://codecov.io/gh/perryqh/db_blaster/branch/master/graph/badge.svg?token=ZMJVDAGX3K)](https://codecov.io/gh/perryqh/db_blaster)
 # DbBlaster
 
 Applications can use this gem as the first step in getting its data into an AWS Data Lake.
