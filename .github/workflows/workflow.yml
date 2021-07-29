@@ -77,7 +77,7 @@ jobs:
           failedThreshold: 100
       - name: Find Test Coverage %
         run: |
-          COVERAGE_PERCENTAGE = cat coverage/.last_run.json | jq -r '.result.line'
+          COVERAGE_PERCENTAGE = "$(cat coverage/.last_run.json | jq -r '.result.line')"
           echo "COVERAGE_PERCENTAGE=$(COVERAGE_PERCENTAGE)" >> $GITHUB_ENV
       - name: Create Awesome Badge
         uses: schneegans/dynamic-badges-action@v1.1.0
