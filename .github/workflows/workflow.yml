@@ -84,7 +84,7 @@ jobs:
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: be2fa5413124206272dbc700f3201f5a
-          filename: db_blaster__${{ github.event.pull_request.base.ref }}.json
+          filename: db_blaster__${{ github.event.pull_request.head.ref }}.json
           label: Test Coverage
           message: ${{ env.TEST_COVERAGE }}%
           color: green
