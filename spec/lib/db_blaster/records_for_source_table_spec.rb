@@ -45,15 +45,22 @@ RSpec.describe DbBlaster::RecordsForSourceTable do
   context 'when more elements than batch_size' do
     let(:batch_size) { 10 }
     let(:name) { 'mountains' }
+    let(:updated_at) { nil }
 
     before do
       ['Hood', 'Gannet', 'Teton', 'Cirque', 'Rocky',
        'Smokey', 'Medicine Bowl', 'Cloud', 'Francs', 'Fremont', 'Jackson', 'Turret'].each do |name|
-        create_mountain(name: name)
+        create_mountain(name: name, updated_at: updated_at)
       end
     end
 
     its(:length) { is_expected.to eq(12) }
+
+    context 'when updated_ats are the same' do
+      let(:updated_at) { Time.zone.now }
+
+      its(:length) { is_expected.to eq(12) }
+    end
   end
 
   context 'when source_table.name is not a table in the db' do
