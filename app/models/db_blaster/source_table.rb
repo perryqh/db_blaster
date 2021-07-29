@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Represents tables that should be synced
 module DbBlaster
+  # Represents tables that should be synced
   class SourceTable < ApplicationRecord
     include Sync
 
