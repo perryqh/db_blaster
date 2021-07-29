@@ -86,6 +86,6 @@ jobs:
           gistID: be2fa5413124206272dbc700f3201f5a
           filename: db_blaster__.json
           label: Hello
-          message: %{{ env.COVERAGE_PERCENTAGE }}%
+          message: ${{ env.COVERAGE_PERCENTAGE }}%
           color: orange
 
