@@ -19,7 +19,7 @@ module DbBlaster
 
       # pessimistically lock row for the duration
       source_table.with_lock do
-        RecordsForSourceTable.find(source_table) do |records|
+        Finder.find(source_table) do |records|
           Publisher.publish(source_table, records)
           source_table.update(last_published_updated_at: records.last['updated_at'])
         end

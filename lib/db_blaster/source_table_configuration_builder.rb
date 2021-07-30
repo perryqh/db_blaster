@@ -28,7 +28,7 @@ module DbBlaster
     end
 
     def batch_size(source_table_name)
-      overridden_value_or_global(source_table_name, :batch_size) || configuration.default_batch_size
+      overridden_value_or_global(source_table_name, :batch_size) || configuration.class::DEFAULT_BATCH_SIZE
     end
 
     def ignored_column_names(source_table_name)

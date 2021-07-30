@@ -30,7 +30,7 @@ RSpec.describe DbBlaster::SourceTableConfigurationBuilder do
   end
 
   it 'builds update_params' do
-    expect(builder.build_all.first.update_params).to eq(batch_size: configuration.default_batch_size,
+    expect(builder.build_all.first.update_params).to eq(batch_size: configuration.class::DEFAULT_BATCH_SIZE,
                                                         ignored_columns: [])
   end
 
@@ -55,7 +55,7 @@ RSpec.describe DbBlaster::SourceTableConfigurationBuilder do
 
     it 'sets the configuration update_params' do
       expect(builder.build_all.first.update_params).to eq(ignored_columns: ['email'],
-                                                          batch_size: configuration.default_batch_size)
+                                                          batch_size: configuration.class::DEFAULT_BATCH_SIZE)
     end
   end
 
@@ -75,7 +75,7 @@ RSpec.describe DbBlaster::SourceTableConfigurationBuilder do
       it 'builds source_table_configuration' do
         all_match = builder.build_all.collect(&:update_params)
                            .all? do |config|
-          config == { ignored_columns: ['phone_number'], batch_size: configuration.default_batch_size }
+          config == { ignored_columns: ['phone_number'], batch_size: configuration.class::DEFAULT_BATCH_SIZE }
         end
         expect(all_match).to be_truthy
       end

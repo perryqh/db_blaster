@@ -2,7 +2,7 @@
 
 module DbBlaster
   # Find records and yield them a `batch_size` at a time
-  class RecordsForSourceTable
+  class Finder
     include AvailableTables
     attr_reader :source_table, :block_on_find, :offset
 
@@ -22,7 +22,10 @@ module DbBlaster
       verify_source_table_name
 
       find_records_in_batches do |batch|
-        block_on_find.call(batch.collect(&method(:filter_columns)))
+        filtered = batch.collect(&method(:filter_columns))
+        Chunker.chunk(source_table, filtered) do |chunked|
+          block_on_find.call(chunked)
+        end
       end
     end
 

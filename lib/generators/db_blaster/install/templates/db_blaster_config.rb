@@ -12,6 +12,11 @@ DbBlaster.configure do |config|
   # config.batch_size = 100
 
   # Optional
+  # db_blaster will publish no messages larger than this value
+  # Default value is 256
+  # attr_accessor :max_message_size_in_kilobytes
+
+  # Optional
   # Extra [SNS message_attributes](https://docs.aws.amazon.com/sns/latest/dg/sns-message-attributes.html)
   # Attributes set here will be included in every published message
   # config.extra_sns_message_attributes = {'infra_id' => {data_type: 'String', value: '061'}}

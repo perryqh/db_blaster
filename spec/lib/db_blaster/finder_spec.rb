@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-RSpec.describe DbBlaster::RecordsForSourceTable do
-  subject(:records) do
+RSpec.describe DbBlaster::Finder do
+  subject(:found) do
     result = []
     described_class.find(source_table) do |records|
       result += records.as_json
@@ -22,12 +22,12 @@ RSpec.describe DbBlaster::RecordsForSourceTable do
   let(:last_published_updated_at) { nil }
 
   it do
-    expect(records).to eq([{ created_at: source_table.created_at.utc.strftime('%Y-%m-%dT%H:%M:%S.%LZ'),
-                             id: source_table.id,
-                             name: source_table.name,
-                             last_published_updated_at: nil,
-                             batch_size: batch_size,
-                             updated_at: source_table.updated_at.utc.strftime('%Y-%m-%dT%H:%M:%S.%LZ') }
+    expect(found).to eq([{ created_at: source_table.created_at.utc.strftime('%Y-%m-%dT%H:%M:%S.%LZ'),
+                           id: source_table.id,
+                           name: source_table.name,
+                           last_published_updated_at: nil,
+                           batch_size: batch_size,
+                           updated_at: source_table.updated_at.utc.strftime('%Y-%m-%dT%H:%M:%S.%LZ') }
                              .stringify_keys])
   end
 
@@ -61,13 +61,24 @@ RSpec.describe DbBlaster::RecordsForSourceTable do
 
       its(:length) { is_expected.to eq(12) }
     end
+
+    context 'when max message size is exceeded' do
+      before do
+        create_mountain(name: name, verbose_description: 'yada ' * 1000)
+        allow(DbBlaster.configuration).to receive(:max_message_size_in_kilobytes).and_return(1)
+      end
+
+      it 'raises error' do
+        expect { found }.to raise_error(DbBlaster::OneRecordTooLargeError)
+      end
+    end
   end
 
   context 'when source_table.name is not a table in the db' do
     let(:name) { 'notganotganotgoingtoworkhereanymore' }
 
     it 'raises error' do
-      expect { records }.to raise_error("source_table.name: '#{name}' does not exist!")
+      expect { found }.to raise_error("source_table.name: '#{name}' does not exist!")
     end
   end
 end

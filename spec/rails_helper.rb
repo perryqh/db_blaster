@@ -47,11 +47,11 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
-def mountains_insert_sql(name, height, updated_at)
+def mountains_insert_sql(name, height, updated_at, verbose_description)
   updated_at ||= DateTime.now
   <<-SQL.squish
-      INSERT INTO MOUNTAINS (name, height, updated_at, created_at) 
-      VALUES ('#{name}', #{height}, '#{updated_at.to_s(:db)}', '#{DateTime.now.to_s(:db)}')
+      INSERT INTO MOUNTAINS (name, height, verbose_description, updated_at, created_at) 
+      VALUES ('#{name}', #{height}, '#{verbose_description}', '#{updated_at.to_s(:db)}', '#{DateTime.now.to_s(:db)}')
   SQL
 end
 
@@ -63,6 +63,6 @@ DbBlaster.configure do |config|
   config.only_source_tables = ['mountains']
 end
 
-def create_mountain(name: 'Sandia', height: 12_000, updated_at: 1.day.ago)
-  ActiveRecord::Base.connection.execute(mountains_insert_sql(name, height, updated_at))
+def create_mountain(name: 'Sandia', height: 12_000, updated_at: 1.day.ago, verbose_description: nil)
+  ActiveRecord::Base.connection.execute(mountains_insert_sql(name, height, updated_at, verbose_description))
 end

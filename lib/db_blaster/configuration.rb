@@ -3,6 +3,9 @@
 module DbBlaster
   # Configuration class for providing credentials, topics, and customizations.
   class Configuration
+    DEFAULT_BATCH_SIZE = 100
+    DEFAULT_MAX_MESSAGE_SIZE_IN_KILOBYTES = 256 # max size allowed by AWS SNS
+
     # The required configuration fields
     REQUIRED_FIELDS = %i[aws_access_key aws_access_secret aws_region sns_topic].freeze
 
@@ -37,9 +40,10 @@ module DbBlaster
     # Default value is 100
     attr_accessor :batch_size
 
-    def default_batch_size
-      100
-    end
+    # Optional
+    # DbBlaster will publish no messages larger than this value
+    # Default value is 256
+    attr_accessor :max_message_size_in_kilobytes
 
     # Raises error if a required field is not set
     def verify!

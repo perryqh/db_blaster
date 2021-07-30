@@ -3,13 +3,15 @@
 require 'aws-sdk-sns'
 require 'db_blaster/version'
 require 'db_blaster/engine'
+require 'db_blaster/one_record_too_large_error'
 require 'db_blaster/available_tables'
 require 'db_blaster/configuration'
 require 'db_blaster/source_table_configuration'
 require 'db_blaster/source_table_configuration_builder'
 require 'db_blaster/publisher'
 require 'db_blaster/publish_source_table'
-require 'db_blaster/records_for_source_table'
+require 'db_blaster/chunker'
+require 'db_blaster/finder'
 
 # Top-level module that serves as an entry point
 # into the engine gem
