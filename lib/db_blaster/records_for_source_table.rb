@@ -58,7 +58,7 @@ module DbBlaster
       return '' unless source_table_last_published_updated_at
 
       ActiveRecord::Base.sanitize_sql_for_conditions(
-        ['WHERE updated_at > :updated_at', { updated_at: source_table_last_published_updated_at.to_s(:db) }]
+        ['WHERE updated_at >= :updated_at', { updated_at: source_table_last_published_updated_at.to_s(:db) }]
       )
     end
   end
