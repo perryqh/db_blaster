@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.summary = 'Push db changes to AWS SNS.'
   spec.description = 'Push db changes to AWS SNS.'
   spec.license = 'MIT'
-  spec.required_ruby_version = '>= 2.7.2'
+  spec.required_ruby_version = '>= 2.6'
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/perryqh/db_blaster'
