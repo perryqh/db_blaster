@@ -12,7 +12,7 @@ AllCops:
     - 'node_modules/**/*'
     - 'vendor/**/*'
     - '.git/**/*'
-  TargetRubyVersion: 2.7.2
+  TargetRubyVersion: 2.6
 
 Layout/LineLength:
   Max: 120

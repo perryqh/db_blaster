@@ -23,6 +23,8 @@ module DbBlaster
 
       find_records_in_batches do |batch|
         filtered = batch.collect(&method(:filter_columns))
+        next if filtered.blank?
+
         Chunker.chunk(source_table, filtered) do |chunked|
           block_on_find.call(chunked)
         end

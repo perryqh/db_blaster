@@ -37,9 +37,15 @@ RSpec.describe DbBlaster::Finder do
 
     before do
       create_mountain
+      allow(DbBlaster::Chunker).to receive(:chunk)
     end
 
     it { is_expected.to be_empty }
+
+    it 'does not attempt to chunk when no records' do
+      found
+      expect(DbBlaster::Chunker).to_not have_received(:chunk)
+    end
   end
 
   context 'when more elements than batch_size' do
