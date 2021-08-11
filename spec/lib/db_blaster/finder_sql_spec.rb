@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe DbBlaster::FinderSql do
@@ -5,9 +7,9 @@ RSpec.describe DbBlaster::FinderSql do
 
   let!(:source_table) do
     create(:db_blaster_source_table, name: name,
-           batch_size: batch_size,
-           ignored_columns: ['ignored_columns'],
-           last_published_updated_at: last_published_updated_at)
+                                     batch_size: batch_size,
+                                     ignored_columns: ['ignored_columns'],
+                                     last_published_updated_at: last_published_updated_at)
   end
   let(:batch_size) { 10 }
   let(:name) { 'mountains' }
@@ -23,7 +25,7 @@ RSpec.describe DbBlaster::FinderSql do
     end
 
     context 'when last_published_updated_at set' do
-      let(:last_published_updated_at) { Time.now }
+      let(:last_published_updated_at) { Time.zone.now }
       let(:expected_sql) do
         "SELECT * FROM #{source_table.name} WHERE updated_at >= '#{source_table.reload.last_published_updated_at.to_s(:db)}' ORDER BY updated_at ASC LIMIT #{source_table.batch_size}"
       end
