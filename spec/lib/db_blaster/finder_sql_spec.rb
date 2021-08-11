@@ -27,7 +27,9 @@ RSpec.describe DbBlaster::FinderSql do
     context 'when last_published_updated_at set' do
       let(:last_published_updated_at) { Time.zone.now }
       let(:expected_sql) do
-        "SELECT * FROM #{source_table.name} WHERE updated_at >= '#{source_table.reload.last_published_updated_at.to_s(:db)}' ORDER BY updated_at ASC LIMIT #{source_table.batch_size}"
+        where = "WHERE updated_at >= '#{source_table.reload.last_published_updated_at.to_s(:db)}'"
+        limit = "LIMIT #{source_table.batch_size}"
+        "SELECT * FROM #{source_table.name} #{where} ORDER BY updated_at ASC #{limit}"
       end
 
       its(:select_sql) { is_expected.to eq(expected_sql) }
