@@ -11,6 +11,7 @@ require 'db_blaster/source_table_configuration_builder'
 require 'db_blaster/publisher'
 require 'db_blaster/publish_source_table'
 require 'db_blaster/chunker'
+require 'db_blaster/finder_sql'
 require 'db_blaster/finder'
 
 # Top-level module that serves as an entry point
