@@ -23,6 +23,11 @@ module DbBlaster
     attr_accessor :only_source_tables
 
     # Optional
+    # If set, ignore source tables specified.
+    # example: config.ignore_source_tables = ['active_storage_blobs']
+    attr_accessor :ignore_source_tables
+
+    # Optional
     # Customize batch_size and/or ignored_columns
     # example:
     # config.source_table_options = [{ source_table_name: 'posts', batch_size: 100, ignored_column_names: ['email'] },

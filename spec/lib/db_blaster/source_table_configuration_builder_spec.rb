@@ -13,6 +13,7 @@ RSpec.describe DbBlaster::SourceTableConfigurationBuilder do
     config.aws_region = 'us-west-1'
     config.only_source_tables = only_source_tables
     config.ignored_column_names = ignored_column_names
+    config.ignore_source_tables = ignore_source_tables
     config.source_table_options = source_table_options
     config.batch_size = batch_size
     config
@@ -21,6 +22,7 @@ RSpec.describe DbBlaster::SourceTableConfigurationBuilder do
   let(:source_table_options) { nil }
   let(:ignored_column_names) { nil }
   let(:batch_size) { nil }
+  let(:ignore_source_tables) { nil }
 
   its(:available_tables) { is_expected.to match_array(%w[db_blaster_source_tables trails mountains]) }
   its(:table_names_for_configuration) { is_expected.to eq(['mountains']) }
@@ -32,6 +34,13 @@ RSpec.describe DbBlaster::SourceTableConfigurationBuilder do
   it 'builds update_params' do
     expect(builder.build_all.first.update_params).to eq(batch_size: configuration.class::DEFAULT_BATCH_SIZE,
                                                         ignored_columns: [])
+  end
+
+  context 'with ignore_source_tables' do
+    let(:only_source_tables) { nil }
+    let(:ignore_source_tables) { %w[mountains db_blaster_source_tables] }
+
+    its(:table_names_for_configuration) { is_expected.to match_array(%w[trails]) }
   end
 
   context 'when batch_size' do
