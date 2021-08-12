@@ -14,7 +14,7 @@ DbBlaster.configure do |config|
   # Optional
   # db_blaster will publish no messages larger than this value
   # Default value is 256
-  # attr_accessor :max_message_size_in_kilobytes
+  # config.max_message_size_in_kilobytes = 256
 
   # Optional
   # Extra [SNS message_attributes](https://docs.aws.amazon.com/sns/latest/dg/sns-message-attributes.html)
@@ -28,6 +28,10 @@ DbBlaster.configure do |config|
   # Optional
   # If set, only publish tables specified.
   # config.only_source_tables = ['posts', 'tags', 'comments']
+
+  # Optional
+  # If set, ignore source tables specified.
+  # config.ignore_source_tables = ['active_storage_blobs']
 
   # Optional
   # Customize batch_size and/or ignored_columns
