@@ -46,6 +46,12 @@ RSpec.describe DbBlaster::Configuration do
     context 'when all required values are set' do
       subject(:configuration) { DbBlaster.configuration }
 
+      before do
+        DbBlaster.configure do |config|
+          config.sns_topic = 'my topic'
+        end
+      end
+
       it 'does not raise error' do
         expect { configuration.verify! }.to_not raise_error
       end

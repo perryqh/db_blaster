@@ -12,7 +12,11 @@ module DbBlaster
     end
 
     def self.publish(source_table, records)
-      SnsPublisher.new(source_table, records).publish
+      if DbBlaster.configuration.sns_topic
+        SnsPublisher.new(source_table, records).publish
+      else
+        S3Publisher.new(source_table, records).publish
+      end
     end
 
     def publish
