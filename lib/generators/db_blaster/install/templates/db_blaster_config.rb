@@ -1,8 +1,18 @@
 # frozen_string_literal: true
 
+# Either `sns_topic` or `s3_bucket` must be set
 DbBlaster.configure do |config|
   # SNS topic to receive database changes
   config.sns_topic = 'the-topic'
+  # config.s3_bucket = 'bucket-name'
+
+  # the S3 key path. The following values will get substituted:
+  # <batch_timestamp> - a timestamp signifying the beginning of the batch processing
+  # <timestamp> - the current time
+  # <table_name> - the name of the table associated with the S3 body
+  # <uuid> - a universal identifier
+  config.s3_key_path = '<batch_timestamp>/kcp-api/001/<table_name>/<uuid>.json'
+
   config.aws_access_key = 'access-key'
   config.aws_access_secret = 'secret'
   config.aws_region = 'region'

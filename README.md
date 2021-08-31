@@ -2,7 +2,7 @@
 # DbBlaster
 ![Image of DB to SNS](https://lucid.app/publicSegments/view/c70feed3-2f48-46ee-8734-423474488feb/image.png)
 
-DbBlaster publishes changed database rows to AWS SNS. The first time `DbBlaster::PublishAllJob.perform_later` is ran,
+DbBlaster can either publish changed database rows to AWS SNS or push the changes to S#. The first time `DbBlaster::PublishAllJob.perform_later` is ran,
 the entire database will be incrementally published to SNS. Subsequent runs will publish rows whose `updated_at` column
 is more recent than the last run.
 

@@ -2,6 +2,7 @@
 
 module DbBlaster
   # Configuration class for providing credentials, topics, and customizations.
+  # Either the `sns_topic` or `s3_bucket' must be set
   class Configuration
     DEFAULT_BATCH_SIZE = 100
     DEFAULT_MAX_MESSAGE_SIZE_IN_KILOBYTES = 256 # max size allowed by AWS SNS
@@ -11,6 +12,15 @@ module DbBlaster
 
     # The topic to which messages will be published
     attr_accessor :sns_topic
+    # The s3 bucket name
+    attr_accessor :s3_bucket
+    # the S3 key path. The following values will get substituted:
+    # <batch_timestamp> - a timestamp signifying the beginning of the batch processing
+    # <timestamp> - the current time
+    # <table_name> - the name of the table associated with the S3 body
+    # <uuid> - a universal identifier
+    # '<batch_timestamp>/kcp-api/001/<table_name>/<uuid>.json'
+    attr_accessor :s3_key_path
     attr_accessor :aws_access_key, :aws_access_secret, :aws_region
 
     # Global list of column names not to include in published SNS messages
