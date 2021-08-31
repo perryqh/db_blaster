@@ -8,7 +8,7 @@ RSpec.describe DbBlaster::Configuration do
 
     context 'when required attributes are not set' do
       let(:expected_error) do
-        'missing configuration values for [aws_access_key, aws_access_secret, aws_region, sns_topic]'
+        'missing configuration values for [aws_access_key, aws_access_secret, aws_region]'
       end
 
       before do
@@ -16,6 +16,24 @@ RSpec.describe DbBlaster::Configuration do
         configuration.aws_access_key = nil
         configuration.aws_access_secret = nil
         configuration.aws_region = ' '
+      end
+
+      it 'raises informative error' do
+        expect do
+          configuration.verify!
+        end.to raise_error(expected_error)
+      end
+    end
+
+    context 'when none of the either ors are set' do
+      let(:expected_error) do
+        'only one of [sns_topic, s3_bucket] should be set'
+      end
+
+      before do
+        configuration.aws_access_key = 'key'
+        configuration.aws_access_secret = 'secret'
+        configuration.aws_region = 'us-west-1'
       end
 
       it 'raises informative error' do

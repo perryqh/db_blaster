@@ -8,7 +8,10 @@ module DbBlaster
     DEFAULT_MAX_MESSAGE_SIZE_IN_KILOBYTES = 256 # max size allowed by AWS SNS
 
     # The required configuration fields
-    REQUIRED_FIELDS = %i[aws_access_key aws_access_secret aws_region sns_topic].freeze
+    REQUIRED_FIELDS = %i[aws_access_key aws_access_secret aws_region].freeze
+
+    # exactly one of these fields needs to be set
+    EITHER_OR_FIELDS = %i[sns_topic s3_bucket].freeze
 
     # The topic to which messages will be published
     attr_accessor :sns_topic
@@ -22,6 +25,18 @@ module DbBlaster
     # '<batch_timestamp>/kcp-api/001/<table_name>/<uuid>.json'
     attr_accessor :s3_key_path
     attr_accessor :aws_access_key, :aws_access_secret, :aws_region
+
+    # Optional
+    # Extra [SNS message_attributes](https://docs.aws.amazon.com/sns/latest/dg/sns-message-attributes.html)
+    # Attributes set here will be included in every published message
+    # example: config.extra_sns_message_attributes = {'infra_id' => {data_type: 'String', value: '061'}}
+    attr_accessor :extra_sns_message_attributes
+
+    # Optional
+    # The value set here will be included in every payload pushed to S3
+    # example: config.s3_meta = {'infra_id' => '061', 'src_app' => 'kcp-api'}}
+    # The resulting JSON: {"meta" : {"infra_id" : "061", "src_app" : "kcp-api"}, "records" : [] }
+    attr_accessor :s3_meta
 
     # Global list of column names not to include in published SNS messages
     # example: config.ignored_column_names = ['email', 'phone_number']
@@ -45,12 +60,6 @@ module DbBlaster
     attr_accessor :source_table_options
 
     # Optional
-    # Extra [SNS message_attributes](https://docs.aws.amazon.com/sns/latest/dg/sns-message-attributes.html)
-    # Attributes set here will be included in every published message
-    # example: config.extra_sns_message_attributes = {'infra_id' => {data_type: 'String', value: '061'}}
-    attr_accessor :extra_sns_message_attributes
-
-    # Optional
     # db_blaster will select and then publish `batch_size` rows at a time
     # Default value is 100
     attr_accessor :batch_size
@@ -65,9 +74,12 @@ module DbBlaster
       no_values = REQUIRED_FIELDS.select do |attribute|
         send(attribute).nil? || send(attribute).strip.empty?
       end
-      return if no_values.empty?
+      raise "missing configuration values for [#{no_values.join(', ')}]" unless no_values.empty?
 
-      raise "missing configuration values for [#{no_values.join(', ')}]"
+      either_or = EITHER_OR_FIELDS.select do |attribute|
+        send(attribute).nil? || send(attribute).strip.empty?
+      end
+      raise "only one of [#{either_or.join(', ')}] should be set" unless either_or.length == 1
     end
   end
 end
