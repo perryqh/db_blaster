@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe DbBlaster::Publisher do
+RSpec.describe DbBlaster::BasePublisher do
   subject(:publisher) { described_class.new(source_table, records) }
 
   let(:source_table) { create(:db_blaster_source_table, name: 'mountains') }

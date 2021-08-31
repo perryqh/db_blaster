@@ -3,7 +3,7 @@
 # publish records to SNS topic
 module DbBlaster
   # Base class for publishing
-  class Publisher
+  class BasePublisher
     attr_reader :source_table, :records
 
     def initialize(source_table, records)

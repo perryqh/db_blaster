@@ -2,7 +2,7 @@
 
 module DbBlaster
   # Publishes records to AWS SNS
-  class SnsPublisher < Publisher
+  class SnsPublisher < BasePublisher
     def publish
       topic.publish(message_attributes: message_attributes,
                     message: records.to_json)

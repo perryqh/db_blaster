@@ -16,7 +16,7 @@ RSpec.describe DbBlaster::PublishSourceTable do
     subject(:execute) { described_class.execute(source_table) }
 
     before do
-      allow(DbBlaster::Publisher).to receive(:publish)
+      allow(DbBlaster::BasePublisher).to receive(:publish)
     end
 
     its(:source_table) { is_expected.to eq(source_table) }
@@ -29,7 +29,7 @@ RSpec.describe DbBlaster::PublishSourceTable do
     # rubocop:disable RSpec/MultipleExpectations
     it 'publishes records' do
       execute
-      expect(DbBlaster::Publisher).to have_received(:publish) do |in_source_table, records|
+      expect(DbBlaster::BasePublisher).to have_received(:publish) do |in_source_table, records|
         expect(in_source_table).to eq(source_table)
         expect(records.length).to eq(1)
         expect(records.first['id']).to eq(mountains.first['id'])
