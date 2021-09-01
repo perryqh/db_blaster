@@ -20,7 +20,9 @@ DbBlaster.configure do |config|
   # Optional
   # Applicable only when `s3_bucket` is set
   # The S3 key path. The following values will get substituted:
-  # <batch_timestamp> - a timestamp signifying the beginning of the batch processing
+  # <batch_date_time> - a timestamp signifying the beginning of the batch processing
+  # <batch_date> - a date signifying the beginning of the batch processing
+  # <batch_time> - a time signifying the beginning of the batch processing
   # <timestamp> - the current time
   # <table_name> - the name of the table associated with the S3 body
   # <uuid> - a universal identifier

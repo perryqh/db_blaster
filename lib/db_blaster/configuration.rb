@@ -6,7 +6,8 @@ module DbBlaster
   class Configuration
     DEFAULT_BATCH_SIZE = 100
     DEFAULT_MAX_MESSAGE_SIZE_IN_KILOBYTES = 256 # max size allowed by AWS SNS
-    DEFAULT_S3_KEY = '<batch_timestamp>/db_blaster/<table_name>/<uuid>.json'
+    DEFAULT_S3_KEY = '<batch_date>/<batch_time>/db_blaster/<table_name>/<uuid>.json'
+    DEFAULT_DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%LZ'
 
     # The required configuration fields
     REQUIRED_FIELDS = %i[aws_access_key aws_access_secret aws_region].freeze

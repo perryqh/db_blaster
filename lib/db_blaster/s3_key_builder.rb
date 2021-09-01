@@ -23,7 +23,10 @@ module DbBlaster
     end
 
     def substitutions
-      { '<batch_timestamp>' => batch_start_time,
+      date, time = batch_start_time.split('T')
+      { '<batch_date_time>' => batch_start_time,
+        '<batch_date>' => date,
+        '<batch_time>' => time,
         '<uuid>' => SecureRandom.uuid,
         '<table_name>' => source_table_name }
     end
