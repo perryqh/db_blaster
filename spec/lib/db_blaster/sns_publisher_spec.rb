@@ -11,6 +11,7 @@ RSpec.describe DbBlaster::SnsPublisher do
   let(:resource) { instance_double(Aws::SNS::Resource) }
   let(:credentials) { instance_double(Aws::Credentials) }
   let(:topic) { instance_double(Aws::SNS::Topic) }
+  let(:batch_start_time) { DateTime.now.utc.to_s }
 
   before do
     allow(Aws::SNS::Client).to receive(:new).and_return(client)
@@ -21,7 +22,9 @@ RSpec.describe DbBlaster::SnsPublisher do
   end
 
   describe '#publish' do
-    subject(:publish) { described_class.publish(source_table, records) }
+    subject(:publish) do
+      described_class.publish(source_table: source_table, records: records, batch_start_time: batch_start_time)
+    end
 
     it 'instantiates credentials' do
       publish

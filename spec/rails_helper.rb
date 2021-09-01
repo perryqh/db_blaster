@@ -30,6 +30,9 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
+  config.after do
+    set_default_config
+  end
 
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
@@ -55,14 +58,21 @@ def mountains_insert_sql(name, height, updated_at, verbose_description)
   SQL
 end
 
-DbBlaster.configure do |config|
-  config.sns_topic = 'my topic'
-  config.aws_access_key = 'aws key'
-  config.aws_access_secret = 'shhhh'
-  config.aws_region = 'us-west-1'
-  config.only_source_tables = ['mountains']
+def set_default_config
+  DbBlaster.configure do |config|
+    config.sns_topic = 'my topic'
+    config.s3_bucket = nil
+    config.aws_access_key = 'aws key'
+    config.aws_access_secret = 'shhhh'
+    config.aws_region = 'us-west-1'
+    config.only_source_tables = ['mountains']
+    config.s3_meta = nil
+    config.s3_key = nil
+  end
 end
 
 def create_mountain(name: 'Sandia', height: 12_000, updated_at: 1.day.ago, verbose_description: nil)
   ActiveRecord::Base.connection.execute(mountains_insert_sql(name, height, updated_at, verbose_description))
 end
+
+set_default_config

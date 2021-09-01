@@ -8,9 +8,10 @@ RSpec.describe DbBlaster::PublishSourceTableJob do
   end
 
   describe '#perform' do
-    subject(:perform) { described_class.new.perform(source_table_id) }
+    subject(:perform) { described_class.new.perform(source_table_id, batch_start_time) }
 
     let(:source_table) { create(:db_blaster_source_table) }
+    let(:batch_start_time) { DateTime.now }
 
     before do
       allow(DbBlaster::PublishSourceTable).to receive(:execute)
@@ -31,7 +32,7 @@ RSpec.describe DbBlaster::PublishSourceTableJob do
       it 'delegates to PublishSourceTable' do
         perform
         expect(DbBlaster::PublishSourceTable).to have_received(:execute)
-          .with(source_table)
+          .with(source_table: source_table, batch_start_time: batch_start_time)
       end
     end
   end

@@ -3,8 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe DbBlaster::BasePublisher do
-  subject(:publisher) { described_class.new(source_table, records) }
+  subject(:publisher) { described_class.new(source_table, records, batch_start_time) }
 
+  let(:batch_start_time) { DateTime.now.utc.to_s }
   let(:source_table) { create(:db_blaster_source_table, name: 'mountains') }
   let(:records) do
     [{ 'id' => 3, 'name' => 'foo' }]
@@ -32,8 +33,8 @@ RSpec.describe DbBlaster::BasePublisher do
       end
 
       it 'delegates to sns-publisher' do
-        described_class.publish(source_table, records)
-        expect(DbBlaster::SnsPublisher).to have_received(:new).with(source_table, records)
+        described_class.publish(source_table: source_table, records: records, batch_start_time: batch_start_time)
+        expect(DbBlaster::SnsPublisher).to have_received(:new).with(source_table, records, batch_start_time)
       end
     end
 
@@ -43,11 +44,11 @@ RSpec.describe DbBlaster::BasePublisher do
           config.sns_topic = nil
           config.s3_bucket = 'mybucket'
         end
+      end
 
-        it 'delegates to s3-publisher' do
-          described_class.publish(source_table, records)
-          expect(DbBlaster::S3Publisher).to have_received(:new).with(source_table, records)
-        end
+      it 'delegates to s3-publisher' do
+        described_class.publish(source_table: source_table, records: records, batch_start_time: batch_start_time)
+        expect(DbBlaster::S3Publisher).to have_received(:new).with(source_table, records, batch_start_time)
       end
     end
   end

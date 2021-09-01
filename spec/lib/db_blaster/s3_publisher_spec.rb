@@ -7,21 +7,35 @@ RSpec.describe DbBlaster::S3Publisher do
   let(:records) do
     [{ 'id' => 3, 'name' => 'foo' }]
   end
-  let(:client) { instance_double(Aws::SNS::Client) }
-  let(:resource) { instance_double(Aws::SNS::Resource) }
+  let(:client) { instance_double(Aws::S3::Client) }
   let(:credentials) { instance_double(Aws::Credentials) }
-  let(:topic) { instance_double(Aws::SNS::Topic) }
+  let(:s3_bucket) { 'a-bucket' }
+  let(:batch_start_time) { DateTime.now.utc.strftime('%Y-%m-%dT%H:%M:%S.%LZ') }
 
   before do
-    allow(Aws::SNS::Client).to receive(:new).and_return(client)
-    allow(Aws::SNS::Resource).to receive(:new).and_return(resource)
-    allow(resource).to receive(:topic).and_return(topic)
-    allow(topic).to receive(:publish)
+    allow(Aws::S3::Client).to receive(:new).and_return(client)
+    allow(client).to receive(:put_object)
     allow(Aws::Credentials).to receive(:new).and_return(credentials)
+    DbBlaster.configure do |config|
+      config.s3_bucket = s3_bucket
+      config.sns_topic = nil
+    end
   end
 
   describe '#publish' do
-    subject(:publish) { described_class.publish(source_table, records) }
+    subject(:publish) do
+      described_class.publish(source_table: source_table, records: records, batch_start_time: batch_start_time)
+    end
+
+    let(:key) { 'the/key/file.json' }
+    let(:expected_body) do
+      { meta: { source_table: source_table.name },
+        records: records }.to_json
+    end
+
+    before do
+      allow(DbBlaster::S3KeyBuilder).to receive(:build).and_return(key)
+    end
 
     it 'instantiates credentials' do
       publish
@@ -31,50 +45,44 @@ RSpec.describe DbBlaster::S3Publisher do
 
     it 'instantiates client' do
       publish
-      expect(Aws::SNS::Client).to have_received(:new).with(region: DbBlaster.configuration.aws_region,
-                                                           credentials: credentials)
+      expect(Aws::S3::Client).to have_received(:new).with(region: DbBlaster.configuration.aws_region,
+                                                          credentials: credentials)
     end
 
-    it 'references the topic' do
+    it 'delegates to S3KeyBuilder for key' do
       publish
-      expect(resource).to have_received(:topic).with(DbBlaster.configuration.sns_topic)
+      expect(DbBlaster::S3KeyBuilder).to have_received(:build)
+        .with(source_table_name: source_table.name,
+              batch_start_time: batch_start_time)
     end
 
-    # rubocop:disable RSpec/MultipleExpectations
     it 'publishes' do
       publish
-      expect(topic).to have_received(:publish) do |args|
-        expect(args[:message]).to eq(records.to_json)
-        expect(args[:message_attributes]).to eq('source_table' =>
-                                                  { data_type: 'String', string_value: source_table.name })
-      end
+      expect(client).to have_received(:put_object)
+        .with(bucket: s3_bucket,
+              key: key,
+              body: expected_body)
     end
-    # rubocop:enable RSpec/MultipleExpectations
 
-    context 'with extra_sns_message_attributes' do
+    context 'with s3_meta' do
       before do
         DbBlaster.configure do |config|
-          config.extra_sns_message_attributes = { 'infra_id' => { data_type: 'String', string_value: '061' } }
+          config.s3_meta = { 'infra_id' => '061' }
         end
       end
 
-      after do
-        DbBlaster.configure do |config|
-          config.extra_sns_message_attributes = {}
-        end
+      let(:expected_body) do
+        { meta: { infra_id: '061', source_table: source_table.name },
+          records: records }.to_json
       end
 
-      # rubocop:disable RSpec/MultipleExpectations
-      it 'publishes with extra attributes' do
+      it 'publishes meta' do
         publish
-        expect(topic).to have_received(:publish) do |args|
-          expect(args).to eq(message: records.to_json,
-                             message_attributes: { 'source_table' =>
-                                                     { data_type: 'String', string_value: source_table.name },
-                                                   'infra_id' => { data_type: 'String', string_value: '061' } })
-        end
+        expect(client).to have_received(:put_object)
+          .with(bucket: s3_bucket,
+                key: key,
+                body: expected_body)
       end
-      # rubocop:enable RSpec/MultipleExpectations
     end
   end
 end

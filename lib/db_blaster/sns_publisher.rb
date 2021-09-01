@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'aws-sdk-sns'
 
 # frozen_string_literal: true

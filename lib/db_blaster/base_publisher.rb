@@ -4,19 +4,22 @@
 module DbBlaster
   # Base class for publishing
   class BasePublisher
-    attr_reader :source_table, :records
+    attr_reader :source_table, :records, :batch_start_time
 
-    def initialize(source_table, records)
+    def initialize(source_table, records, batch_start_time)
       @source_table = source_table
       @records = records
+      @batch_start_time = batch_start_time
     end
 
-    def self.publish(source_table, records)
-      if DbBlaster.configuration.sns_topic
-        SnsPublisher.new(source_table, records).publish
-      else
-        S3Publisher.new(source_table, records).publish
-      end
+    def self.publish(source_table:, records:, batch_start_time:)
+      publisher_class =
+        if DbBlaster.configuration.sns_topic
+          SnsPublisher
+        else
+          S3Publisher
+        end
+      publisher_class.new(source_table, records, batch_start_time).publish
     end
 
     def publish
