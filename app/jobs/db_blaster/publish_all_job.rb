@@ -13,8 +13,12 @@ module DbBlaster
                          .build_all(DbBlaster.configuration))
 
       DbBlaster::SourceTable.pluck(:id).each do |source_table_id|
-        PublishSourceTableJob.perform_later(source_table_id)
+        PublishSourceTableJob.perform_later(source_table_id, batch_start_time)
       end
+    end
+
+    def batch_start_time
+      @batch_start_time ||= DateTime.now.utc.strftime('%Y-%m-%dT%H:%M:%S.%LZ')
     end
   end
 end

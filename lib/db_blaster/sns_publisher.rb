@@ -1,20 +1,12 @@
 # frozen_string_literal: true
 
-# publish records to SNS topic
+require 'aws-sdk-sns'
+
+# frozen_string_literal: true
+
 module DbBlaster
   # Publishes records to AWS SNS
-  class Publisher
-    attr_reader :source_table, :records
-
-    def initialize(source_table, records)
-      @source_table = source_table
-      @records = records
-    end
-
-    def self.publish(source_table, records)
-      new(source_table, records).publish
-    end
-
+  class SnsPublisher < BasePublisher
     def publish
       topic.publish(message_attributes: message_attributes,
                     message: records.to_json)
