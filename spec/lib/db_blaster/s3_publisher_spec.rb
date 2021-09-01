@@ -32,6 +32,9 @@ RSpec.describe DbBlaster::S3Publisher do
       { meta: { source_table: source_table.name },
         records: records }.to_json
     end
+    let(:expected_tagging) do
+      'source_table=mountains'
+    end
 
     before do
       allow(DbBlaster::S3KeyBuilder).to receive(:build).and_return(key)
@@ -53,7 +56,8 @@ RSpec.describe DbBlaster::S3Publisher do
       publish
       expect(DbBlaster::S3KeyBuilder).to have_received(:build)
         .with(source_table_name: source_table.name,
-              batch_start_time: batch_start_time)
+              batch_start_time: batch_start_time,
+              tagging: expected_tagging)
     end
 
     it 'publishes' do
@@ -64,10 +68,11 @@ RSpec.describe DbBlaster::S3Publisher do
               body: expected_body)
     end
 
-    context 'with s3_meta' do
+    context 'with s3_meta and tags' do
       before do
         DbBlaster.configure do |config|
           config.s3_meta = { 'infra_id' => '061' }
+          config.s3_tags = { source_app: 'kcp-api', foo: 'value with space' }
         end
       end
 
@@ -75,13 +80,17 @@ RSpec.describe DbBlaster::S3Publisher do
         { meta: { infra_id: '061', source_table: source_table.name },
           records: records }.to_json
       end
+      let(:expected_tagging) do
+        'foo=value with space&source_app=kcp-api&source_table=meetings'
+      end
 
       it 'publishes meta' do
         publish
         expect(client).to have_received(:put_object)
           .with(bucket: s3_bucket,
                 key: key,
-                body: expected_body)
+                body: expected_body,
+                tagging: expected_tagging)
       end
     end
   end
