@@ -1,3 +1,6 @@
+## v0.1.3 (2021-09-01) -
+* [#20](https://github.com/perryqh/db_blaster/pull/20/files) Adding push to S3 option
+
 ## v0.1.2 (2021-08-12) -
 * [#14](https://github.com/perryqh/db_blaster/pull/14/files) Adding `ignore_source_tables` configuration option
 
