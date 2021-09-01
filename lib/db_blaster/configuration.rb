@@ -32,7 +32,7 @@ module DbBlaster
     # The value set here will be included in every payload pushed to S3
     # example: config.s3_meta = {'infra_id' => '061', 'source_app' => 'kcp-api'}}
     # The resulting JSON:
-    # {"meta" : {"infra_id" : "061", "source_app" : "kcp-api", "src_table" : "the-table"}, "records" : [] }
+    # {"meta" : {"infra_id" : "061", "src_app" : "kcp-api", "src_table" : "the-table"}, "records" : [] }
     attr_accessor :s3_meta
 
     # Optional
