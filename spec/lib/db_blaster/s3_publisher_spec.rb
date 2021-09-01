@@ -56,8 +56,7 @@ RSpec.describe DbBlaster::S3Publisher do
       publish
       expect(DbBlaster::S3KeyBuilder).to have_received(:build)
         .with(source_table_name: source_table.name,
-              batch_start_time: batch_start_time,
-              tagging: expected_tagging)
+              batch_start_time: batch_start_time)
     end
 
     it 'publishes' do
@@ -65,7 +64,8 @@ RSpec.describe DbBlaster::S3Publisher do
       expect(client).to have_received(:put_object)
         .with(bucket: s3_bucket,
               key: key,
-              body: expected_body)
+              body: expected_body,
+              tagging: expected_tagging)
     end
 
     context 'with s3_meta and tags' do
@@ -81,7 +81,7 @@ RSpec.describe DbBlaster::S3Publisher do
           records: records }.to_json
       end
       let(:expected_tagging) do
-        'foo=value with space&source_app=kcp-api&source_table=meetings'
+        URI.encode_www_form(source_table: 'mountains', source_app: 'kcp-api', foo: 'value with space')
       end
 
       it 'publishes meta' do
