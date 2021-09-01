@@ -31,7 +31,7 @@ DbBlaster.configure do |config|
   # Extra meta values sent along with each payload
   # example: config.s3_meta = {'infra_id' => '061'}
   # The resulting JSON:
-  # {"meta" : {"infra_id" : "061", "src_app" : "kcp-api", "src_table" : "the-table"}, "records" : [] }
+  # {"meta" : {"infra_id" : "061", "source_app" : "kcp-api", "src_table" : "the-table"}, "records" : [] }
   # config.s3_meta = {'infra_id' => '061'}
 
   # Optional
