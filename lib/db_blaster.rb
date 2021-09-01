@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'aws-sdk-sns'
 require 'db_blaster/version'
 require 'db_blaster/engine'
 require 'db_blaster/one_record_too_large_error'

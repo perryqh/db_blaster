@@ -1,3 +1,5 @@
+require 'aws-sdk-sns'
+
 # frozen_string_literal: true
 
 module DbBlaster

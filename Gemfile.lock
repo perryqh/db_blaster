@@ -9,6 +9,7 @@ PATH
   remote: .
   specs:
     db_blaster (0.1.2)
+      aws-sdk-s3
       aws-sdk-sns
       rails
 
@@ -84,6 +85,13 @@ GEM
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
       jmespath (~> 1.0)
+    aws-sdk-kms (1.47.0)
+      aws-sdk-core (~> 3, >= 3.119.0)
+      aws-sigv4 (~> 1.1)
+    aws-sdk-s3 (1.100.0)
+      aws-sdk-core (~> 3, >= 3.119.0)
+      aws-sdk-kms (~> 1)
+      aws-sigv4 (~> 1.1)
     aws-sdk-sns (1.44.0)
       aws-sdk-core (~> 3, >= 3.119.0)
       aws-sigv4 (~> 1.1)
