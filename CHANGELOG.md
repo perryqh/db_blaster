@@ -1,3 +1,6 @@
+## v0.1.5 (2021-09-02) -
+* [#22](https://github.com/perryqh/db_blaster/pull/22/files) Inline meta so that Spark can infer schema
+
 ## v0.1.4 (2021-09-01) -
 * [#21](https://github.com/perryqh/db_blaster/pull/21/files) Adding s3 tags option
 

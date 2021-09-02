@@ -14,8 +14,7 @@ module DbBlaster
     end
 
     def content
-      { meta: meta,
-        records: records }
+      meta_records
     end
 
     def tagging
@@ -28,7 +27,11 @@ module DbBlaster
     end
 
     def meta
-      (DbBlaster.configuration.s3_meta.presence || {}).merge(source_table: source_table.name)
+      @meta ||= (DbBlaster.configuration.s3_meta.presence || {}).merge(source_table: source_table.name)
+    end
+
+    def meta_records
+      records.collect { |record| record.merge(meta) }
     end
 
     def client

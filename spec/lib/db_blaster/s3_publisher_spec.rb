@@ -28,9 +28,10 @@ RSpec.describe DbBlaster::S3Publisher do
     end
 
     let(:key) { 'the/key/file.json' }
+    let(:expected_meta) { { source_table: source_table.name } }
     let(:expected_body) do
-      { meta: { source_table: source_table.name },
-        records: records }.to_json
+      records.collect { |record| record.merge(expected_meta) }
+             .to_json
     end
     let(:expected_tagging) do
       'source_table=mountains'
@@ -76,10 +77,7 @@ RSpec.describe DbBlaster::S3Publisher do
         end
       end
 
-      let(:expected_body) do
-        { meta: { infra_id: '061', source_table: source_table.name },
-          records: records }.to_json
-      end
+      let(:expected_meta) { { infra_id: '061', source_table: source_table.name } }
       let(:expected_tagging) do
         URI.encode_www_form(source_table: 'mountains', source_app: 'kcp-api', foo: 'value with space')
       end
