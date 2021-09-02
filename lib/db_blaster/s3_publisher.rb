@@ -14,7 +14,10 @@ module DbBlaster
     end
 
     def content
-      meta_records
+      return meta_records if DbBlaster.configuration.s3_meta_format == Configuration::INLINE_S3_META_FORMAT
+
+      { meta: meta,
+        records: records }
     end
 
     def tagging
@@ -23,7 +26,7 @@ module DbBlaster
 
     def tags_hash
       @tags_hash ||= { source_table: source_table.name }
-                     .merge(DbBlaster.configuration.s3_tags.presence || {})
+                       .merge(DbBlaster.configuration.s3_tags.presence || {})
     end
 
     def meta

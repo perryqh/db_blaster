@@ -68,6 +68,8 @@ def set_default_config
     config.only_source_tables = ['mountains']
     config.s3_meta = nil
     config.s3_key = nil
+    config.s3_meta_format = nil
+    config.s3_tags = nil
   end
 end
 
