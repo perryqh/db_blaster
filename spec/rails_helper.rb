@@ -30,7 +30,7 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
-  config.after do
+  config.before do
     set_default_config
   end
 
@@ -77,4 +77,3 @@ def create_mountain(name: 'Sandia', height: 12_000, updated_at: 1.day.ago, verbo
   ActiveRecord::Base.connection.execute(mountains_insert_sql(name, height, updated_at, verbose_description))
 end
 
-set_default_config

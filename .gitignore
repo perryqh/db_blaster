@@ -12,3 +12,4 @@
 .byebug_history
 coverage
 rails_best_practices_output.html
+/db_blaster-*.gem
