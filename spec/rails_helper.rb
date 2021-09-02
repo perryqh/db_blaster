@@ -58,6 +58,7 @@ def mountains_insert_sql(name, height, updated_at, verbose_description)
   SQL
 end
 
+# rubocop:disable Metrics/MethodLength
 def set_default_config
   DbBlaster.configure do |config|
     config.sns_topic = 'my topic'
@@ -72,8 +73,8 @@ def set_default_config
     config.s3_tags = nil
   end
 end
+# rubocop:enable Metrics/MethodLength
 
 def create_mountain(name: 'Sandia', height: 12_000, updated_at: 1.day.ago, verbose_description: nil)
   ActiveRecord::Base.connection.execute(mountains_insert_sql(name, height, updated_at, verbose_description))
 end
-

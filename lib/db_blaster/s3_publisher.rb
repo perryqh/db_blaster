@@ -26,7 +26,7 @@ module DbBlaster
 
     def tags_hash
       @tags_hash ||= { source_table: source_table.name }
-                       .merge(DbBlaster.configuration.s3_tags.presence || {})
+                     .merge(DbBlaster.configuration.s3_tags.presence || {})
     end
 
     def meta
