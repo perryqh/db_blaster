@@ -22,8 +22,7 @@ DbBlaster.configure do |config|
   # The S3 key path. The following values will get substituted:
   # <batch_date_time> - a timestamp signifying the beginning of the batch processing
   # <batch_date> - a date signifying the beginning of the batch processing
-  # <batch_time> - a time signifying the beginning of the batch processing
-  # <timestamp> - the current time
+  # <date_time> - the datetime just before pushing to S3
   # <table_name> - the name of the table associated with the S3 body
   # <uuid> - a universal identifier
   # config.s3_key = '<batch_timestamp>/kcp-api/001/<table_name>/<uuid>.json'

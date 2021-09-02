@@ -46,8 +46,10 @@ module DbBlaster
     # Optional
     # Applicable only when `s3_bucket` is set
     # The S3 key. The following values will get substituted:
-    # <batch_timestamp> - a timestamp signifying the beginning of the batch processing
-    # <timestamp> - the current time
+    # <batch_date_time> - date time when batch started
+    # <batch_date> - date when batch started
+    # <batch_time - time when batch started
+    # <date_time> - the datetime just before pushing to S3
     # <table_name> - the name of the table associated with the S3 body
     # <uuid> - a universal identifier
     # '<batch_timestamp>/kcp-api/001/<table_name>/<uuid>.json'

@@ -32,6 +32,18 @@ RSpec.describe DbBlaster::S3KeyBuilder do
       it { is_expected.to eq("#{batch_start_time}/kcp-api/#{source_table_name}/#{uuid}.json") }
     end
 
+    context 'with date_time' do
+      before do
+        DbBlaster.configure do |config|
+          config.s3_key = '<batch_date_time>/kcp-api/<table_name>/<date_time>.json'
+        end
+      end
+
+      let(:date_time) { now.utc.strftime(DbBlaster::Configuration::DEFAULT_DATETIME_FORMAT) }
+
+      it { is_expected.to eq("#{batch_start_time}/kcp-api/#{source_table_name}/#{date_time}.json") }
+    end
+
     context 'with date and time key' do
       before do
         DbBlaster.configure do |config|
