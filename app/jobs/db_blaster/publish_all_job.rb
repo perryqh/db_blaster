@@ -18,7 +18,7 @@ module DbBlaster
     end
 
     def batch_start_time
-      @batch_start_time ||= DateTime.now.utc.strftime('%Y-%m-%dT%H:%M:%S.%LZ')
+      @batch_start_time ||= DateTime.now.utc.strftime(DbBlaster::Configuration::DEFAULT_DATETIME_FORMAT)
     end
   end
 end

@@ -9,6 +9,7 @@ module DbBlaster
       client.put_object(bucket: DbBlaster.configuration.s3_bucket,
                         key: S3KeyBuilder.build(source_table_name: source_table.name,
                                                 batch_start_time: batch_start_time),
+                        tagging: tagging,
                         body: content.to_json)
     end
 
@@ -17,8 +18,17 @@ module DbBlaster
         records: records }
     end
 
+    def tagging
+      URI.encode_www_form(tags_hash)
+    end
+
+    def tags_hash
+      @tags_hash ||= { source_table: source_table.name }
+                     .merge(DbBlaster.configuration.s3_tags.presence || {})
+    end
+
     def meta
-      (DbBlaster.configuration.s3_meta || {}).merge(source_table: source_table.name)
+      (DbBlaster.configuration.s3_meta.presence || {}).merge(source_table: source_table.name)
     end
 
     def client

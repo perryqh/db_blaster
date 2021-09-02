@@ -6,7 +6,8 @@ module DbBlaster
   class Configuration
     DEFAULT_BATCH_SIZE = 100
     DEFAULT_MAX_MESSAGE_SIZE_IN_KILOBYTES = 256 # max size allowed by AWS SNS
-    DEFAULT_S3_KEY = '<batch_timestamp>/db_blaster/<table_name>/<uuid>.json'
+    DEFAULT_S3_KEY = '<batch_date>/<batch_time>/db_blaster/<table_name>/<uuid>.json'
+    DEFAULT_DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%LZ'
 
     # The required configuration fields
     REQUIRED_FIELDS = %i[aws_access_key aws_access_secret aws_region].freeze
@@ -30,7 +31,7 @@ module DbBlaster
     # Optional
     # Applicable only when `s3_bucket' is set
     # The value set here will be included in every payload pushed to S3
-    # example: config.s3_meta = {'infra_id' => '061', 'src_app' => 'kcp-api'}}
+    # example: config.s3_meta = {'infra_id' => '061', 'source_app' => 'kcp-api'}}
     # The resulting JSON:
     # {"meta" : {"infra_id" : "061", "src_app" : "kcp-api", "src_table" : "the-table"}, "records" : [] }
     attr_accessor :s3_meta
@@ -44,6 +45,12 @@ module DbBlaster
     # <uuid> - a universal identifier
     # '<batch_timestamp>/kcp-api/001/<table_name>/<uuid>.json'
     attr_accessor :s3_key
+
+    # Optional
+    # Applicable only when `s3_bucket` is set
+    # S3 Tags
+    # example: config.s3_tags = { infra_id: '001', source_app: 'kcp-api', source_table: 'meetings' }
+    attr_accessor :s3_tags
 
     # Global list of column names not to include in published SNS messages
     # example: config.ignored_column_names = ['email', 'phone_number']

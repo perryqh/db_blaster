@@ -1,3 +1,6 @@
+## v0.1.4 (2021-09-01) -
+* [#21](https://github.com/perryqh/db_blaster/pull/21/files) Adding s3 tags option
+
 ## v0.1.3 (2021-09-01) -
 * [#20](https://github.com/perryqh/db_blaster/pull/20/files) Adding push to S3 option
 

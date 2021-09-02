@@ -17,7 +17,7 @@ RSpec.describe DbBlaster::PublishAllJob, type: :job do
         .build_all(DbBlaster.configuration)
     end
     let(:expected_batch_start_time) do
-      now.utc.strftime('%Y-%m-%dT%H:%M:%S.%LZ')
+      now.utc.strftime(DbBlaster::Configuration::DEFAULT_DATETIME_FORMAT)
     end
 
     before do

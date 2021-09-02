@@ -20,7 +20,9 @@ DbBlaster.configure do |config|
   # Optional
   # Applicable only when `s3_bucket` is set
   # The S3 key path. The following values will get substituted:
-  # <batch_timestamp> - a timestamp signifying the beginning of the batch processing
+  # <batch_date_time> - a timestamp signifying the beginning of the batch processing
+  # <batch_date> - a date signifying the beginning of the batch processing
+  # <batch_time> - a time signifying the beginning of the batch processing
   # <timestamp> - the current time
   # <table_name> - the name of the table associated with the S3 body
   # <uuid> - a universal identifier
@@ -31,7 +33,7 @@ DbBlaster.configure do |config|
   # Extra meta values sent along with each payload
   # example: config.s3_meta = {'infra_id' => '061'}
   # The resulting JSON:
-  # {"meta" : {"infra_id" : "061", "src_app" : "kcp-api", "src_table" : "the-table"}, "records" : [] }
+  # {"meta" : {"infra_id" : "061", "source_app" : "kcp-api", "src_table" : "the-table"}, "records" : [] }
   # config.s3_meta = {'infra_id' => '061'}
 
   # Optional
