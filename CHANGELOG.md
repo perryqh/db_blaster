@@ -1,3 +1,6 @@
+## v0.1.6 (2021-09-02) -
+* [#23](https://github.com/perryqh/db_blaster/pull/23/files) Meta format option
+
 ## v0.1.5 (2021-09-02) -
 * [#22](https://github.com/perryqh/db_blaster/pull/22/files) Inline meta so that Spark can infer schema
 
