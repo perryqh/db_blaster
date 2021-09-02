@@ -56,17 +56,17 @@ RSpec.describe DbBlaster::S3Publisher do
     it 'delegates to S3KeyBuilder for key' do
       publish
       expect(DbBlaster::S3KeyBuilder).to have_received(:build)
-                                           .with(source_table_name: source_table.name,
-                                                 batch_start_time: batch_start_time)
+        .with(source_table_name: source_table.name,
+              batch_start_time: batch_start_time)
     end
 
     it 'publishes' do
       publish
       expect(client).to have_received(:put_object)
-                          .with(bucket: s3_bucket,
-                                key: key,
-                                body: expected_body,
-                                tagging: expected_tagging)
+        .with(bucket: s3_bucket,
+              key: key,
+              body: expected_body,
+              tagging: expected_tagging)
     end
 
     context 'with s3_meta and tags' do
@@ -85,10 +85,10 @@ RSpec.describe DbBlaster::S3Publisher do
       it 'publishes meta' do
         publish
         expect(client).to have_received(:put_object)
-                            .with(bucket: s3_bucket,
-                                  key: key,
-                                  body: expected_body,
-                                  tagging: expected_tagging)
+          .with(bucket: s3_bucket,
+                key: key,
+                body: expected_body,
+                tagging: expected_tagging)
       end
     end
   end
