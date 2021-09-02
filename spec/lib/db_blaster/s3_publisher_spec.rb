@@ -28,9 +28,10 @@ RSpec.describe DbBlaster::S3Publisher do
     end
 
     let(:key) { 'the/key/file.json' }
+    let(:expected_meta) { { source_table: source_table.name } }
     let(:expected_body) do
-      { meta: { source_table: source_table.name },
-        records: records }.to_json
+      records.collect { |record| record.merge(expected_meta) }
+             .to_json
     end
     let(:expected_tagging) do
       'source_table=mountains'
@@ -55,17 +56,17 @@ RSpec.describe DbBlaster::S3Publisher do
     it 'delegates to S3KeyBuilder for key' do
       publish
       expect(DbBlaster::S3KeyBuilder).to have_received(:build)
-        .with(source_table_name: source_table.name,
-              batch_start_time: batch_start_time)
+                                           .with(source_table_name: source_table.name,
+                                                 batch_start_time: batch_start_time)
     end
 
     it 'publishes' do
       publish
       expect(client).to have_received(:put_object)
-        .with(bucket: s3_bucket,
-              key: key,
-              body: expected_body,
-              tagging: expected_tagging)
+                          .with(bucket: s3_bucket,
+                                key: key,
+                                body: expected_body,
+                                tagging: expected_tagging)
     end
 
     context 'with s3_meta and tags' do
@@ -76,10 +77,7 @@ RSpec.describe DbBlaster::S3Publisher do
         end
       end
 
-      let(:expected_body) do
-        { meta: { infra_id: '061', source_table: source_table.name },
-          records: records }.to_json
-      end
+      let(:expected_meta) { { infra_id: '061', source_table: source_table.name } }
       let(:expected_tagging) do
         URI.encode_www_form(source_table: 'mountains', source_app: 'kcp-api', foo: 'value with space')
       end
@@ -87,10 +85,10 @@ RSpec.describe DbBlaster::S3Publisher do
       it 'publishes meta' do
         publish
         expect(client).to have_received(:put_object)
-          .with(bucket: s3_bucket,
-                key: key,
-                body: expected_body,
-                tagging: expected_tagging)
+                            .with(bucket: s3_bucket,
+                                  key: key,
+                                  body: expected_body,
+                                  tagging: expected_tagging)
       end
     end
   end

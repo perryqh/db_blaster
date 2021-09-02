@@ -8,7 +8,7 @@ GIT
 PATH
   remote: .
   specs:
-    db_blaster (0.1.4)
+    db_blaster (0.1.5)
       aws-sdk-s3
       aws-sdk-sns
       rails
