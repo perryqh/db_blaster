@@ -23,10 +23,12 @@ module DbBlaster
     end
 
     def substitutions
+      date_time = DateTime.now.utc.strftime(DbBlaster::Configuration::DEFAULT_DATETIME_FORMAT)
       date, time = batch_start_time.split('T')
       { '<batch_date_time>' => batch_start_time,
         '<batch_date>' => date,
         '<batch_time>' => time,
+        '<date_time>' => date_time,
         '<uuid>' => SecureRandom.uuid,
         '<table_name>' => source_table_name }
     end

@@ -30,7 +30,7 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
-  config.after do
+  config.before do
     set_default_config
   end
 
@@ -58,6 +58,7 @@ def mountains_insert_sql(name, height, updated_at, verbose_description)
   SQL
 end
 
+# rubocop:disable Metrics/MethodLength
 def set_default_config
   DbBlaster.configure do |config|
     config.sns_topic = 'my topic'
@@ -68,11 +69,12 @@ def set_default_config
     config.only_source_tables = ['mountains']
     config.s3_meta = nil
     config.s3_key = nil
+    config.s3_meta_format = nil
+    config.s3_tags = nil
   end
 end
+# rubocop:enable Metrics/MethodLength
 
 def create_mountain(name: 'Sandia', height: 12_000, updated_at: 1.day.ago, verbose_description: nil)
   ActiveRecord::Base.connection.execute(mountains_insert_sql(name, height, updated_at, verbose_description))
 end
-
-set_default_config

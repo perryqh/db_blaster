@@ -19,6 +19,7 @@ RSpec.describe DbBlaster::S3Publisher do
     DbBlaster.configure do |config|
       config.s3_bucket = s3_bucket
       config.sns_topic = nil
+      config.s3_meta_format = DbBlaster::Configuration::INLINE_S3_META_FORMAT
     end
   end
 
@@ -83,6 +84,28 @@ RSpec.describe DbBlaster::S3Publisher do
       end
 
       it 'publishes meta' do
+        publish
+        expect(client).to have_received(:put_object)
+          .with(bucket: s3_bucket,
+                key: key,
+                body: expected_body,
+                tagging: expected_tagging)
+      end
+    end
+
+    context 'when s3_meta_format is `attribute`' do
+      before do
+        DbBlaster.configure do |config|
+          config.s3_meta_format = DbBlaster::Configuration::ATTRIBUTE_S3_META_FORMAT
+        end
+      end
+
+      let(:expected_body) do
+        { meta: { source_table: source_table.name },
+          records: records }.to_json
+      end
+
+      it 'publishes meta as attribute' do
         publish
         expect(client).to have_received(:put_object)
           .with(bucket: s3_bucket,

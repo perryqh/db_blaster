@@ -8,6 +8,8 @@ module DbBlaster
     DEFAULT_MAX_MESSAGE_SIZE_IN_KILOBYTES = 256 # max size allowed by AWS SNS
     DEFAULT_S3_KEY = '<batch_date>/<batch_time>/db_blaster/<table_name>/<uuid>.json'
     DEFAULT_DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%LZ'
+    ATTRIBUTE_S3_META_FORMAT = 'attribute' # { meta: {your: :value}, records: [] }
+    INLINE_S3_META_FORMAT = 'inline' # records.collect{|record| record.merge(meta) }
 
     # The required configuration fields
     REQUIRED_FIELDS = %i[aws_access_key aws_access_secret aws_region].freeze
@@ -32,14 +34,22 @@ module DbBlaster
     # Applicable only when `s3_bucket' is set
     # The value set here will be included in every payload pushed to S3
     # example: config.s3_meta = {'infra_id' => '061', 'source_app' => 'kcp-api'}}
-    # The resulting JSON will include the `meta` merged into every record
     attr_accessor :s3_meta
+
+    # Optional
+    # Options: ['attribute', 'inline']
+    # Defaults to 'attribute'
+    # 'attribute' payload: { meta: `s3_meta`, records: [source_table_records] }
+    # 'inline' payload: records.collect{|record| record.merge(meta) }
+    attr_accessor :s3_meta_format
 
     # Optional
     # Applicable only when `s3_bucket` is set
     # The S3 key. The following values will get substituted:
-    # <batch_timestamp> - a timestamp signifying the beginning of the batch processing
-    # <timestamp> - the current time
+    # <batch_date_time> - date time when batch started
+    # <batch_date> - date when batch started
+    # <batch_time - time when batch started
+    # <date_time> - the datetime just before pushing to S3
     # <table_name> - the name of the table associated with the S3 body
     # <uuid> - a universal identifier
     # '<batch_timestamp>/kcp-api/001/<table_name>/<uuid>.json'
