@@ -21,15 +21,18 @@ RSpec.describe DbBlaster::Finder do
   let(:name) { 'db_blaster_source_tables' }
   let(:last_published_updated_at) { nil }
 
+  # rubocop:disable RSpec/ExampleLength
   it do
     expect(found).to eq([{ created_at: source_table.created_at.utc.strftime('%Y-%m-%dT%H:%M:%S.%LZ'),
                            id: source_table.id,
                            name: source_table.name,
                            last_published_updated_at: nil,
                            batch_size: batch_size,
+                           last_published_id: source_table.last_published_id,
                            updated_at: source_table.updated_at.utc.strftime('%Y-%m-%dT%H:%M:%S.%LZ') }
                              .stringify_keys])
   end
+  # rubocop:enable RSpec/ExampleLength
 
   context 'when last_published_updated_at is set' do
     let(:last_published_updated_at) { Time.zone.now }

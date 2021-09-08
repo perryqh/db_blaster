@@ -15,4 +15,19 @@ RSpec.describe DbBlaster::SourceTablesSchemaBuilder do
                                             { limit: nil, name: 'created_at', type: :datetime },
                                             { limit: nil, name: 'updated_at', type: :datetime }])
   end
+
+  context 'with ignored columns' do
+    before do
+      DbBlaster.configure do |config|
+        config.ignored_column_names = %w[distance phone_number]
+      end
+    end
+
+    it 'contains columns' do
+      expect(build['trails']).to match_array([{ limit: 8, name: 'id', type: :integer },
+                                              { limit: nil, name: 'name', type: :string },
+                                              { limit: nil, name: 'created_at', type: :datetime },
+                                              { limit: nil, name: 'updated_at', type: :datetime }])
+    end
+  end
 end

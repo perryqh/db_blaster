@@ -27,6 +27,11 @@ RSpec.describe DbBlaster::PublishSourceTable do
         .to(mountains.last['updated_at'])
     end
 
+    it 'updates the source-table last_published_id' do
+      expect { execute }.to change { source_table.reload.last_published_id }
+        .to(mountains.last['id'].to_s)
+    end
+
     # rubocop:disable RSpec/MultipleExpectations
     it 'publishes records' do
       execute
