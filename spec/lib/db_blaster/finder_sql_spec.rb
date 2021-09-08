@@ -9,11 +9,13 @@ RSpec.describe DbBlaster::FinderSql do
     create(:db_blaster_source_table, name: name,
                                      batch_size: batch_size,
                                      ignored_columns: ['ignored_columns'],
-                                     last_published_updated_at: last_published_updated_at)
+                                     last_published_updated_at: last_published_updated_at,
+                                     last_published_id: last_published_id)
   end
   let(:batch_size) { 10 }
   let(:name) { 'mountains' }
   let(:last_published_updated_at) { nil }
+  let(:last_published_id) { '3' }
 
   describe '#select_sql' do
     context 'when last_published_updated_at not set' do
@@ -27,7 +29,9 @@ RSpec.describe DbBlaster::FinderSql do
     context 'when last_published_updated_at set' do
       let(:last_published_updated_at) { Time.zone.now }
       let(:expected_sql) do
-        where = "WHERE updated_at >= '#{source_table.reload.last_published_updated_at.to_s(:db)}'"
+        last_updated = source_table.reload.last_published_updated_at.to_s(:db)
+        where = "WHERE updated_at > '#{last_updated}'"
+        where += " OR (updated_at = '#{last_updated}' AND id <> '#{source_table.reload.last_published_id}')"
         limit = "LIMIT #{source_table.batch_size}"
         "SELECT * FROM #{source_table.name} #{where} ORDER BY updated_at ASC #{limit}"
       end

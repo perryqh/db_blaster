@@ -22,7 +22,8 @@ module DbBlaster
       source_table.with_lock do
         Finder.find(source_table) do |records|
           BasePublisher.publish(source_table: source_table, records: records, batch_start_time: batch_start_time)
-          source_table.update(last_published_updated_at: records.last['updated_at'])
+          source_table.update(last_published_updated_at: records.last['updated_at'],
+                              last_published_id: records.last['id'])
         end
       end
       self

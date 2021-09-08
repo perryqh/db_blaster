@@ -15,21 +15,26 @@ RSpec.describe DbBlaster::Finder do
     create(:db_blaster_source_table, name: name,
                                      batch_size: batch_size,
                                      ignored_columns: ['ignored_columns'],
-                                     last_published_updated_at: last_published_updated_at)
+                                     last_published_updated_at: last_published_updated_at,
+                                     last_published_id: last_published_id)
   end
   let(:batch_size) { 10 }
   let(:name) { 'db_blaster_source_tables' }
   let(:last_published_updated_at) { nil }
+  let(:last_published_id) { nil }
 
+  # rubocop:disable RSpec/ExampleLength
   it do
     expect(found).to eq([{ created_at: source_table.created_at.utc.strftime('%Y-%m-%dT%H:%M:%S.%LZ'),
                            id: source_table.id,
                            name: source_table.name,
                            last_published_updated_at: nil,
                            batch_size: batch_size,
+                           last_published_id: source_table.last_published_id,
                            updated_at: source_table.updated_at.utc.strftime('%Y-%m-%dT%H:%M:%S.%LZ') }
-                             .stringify_keys])
+                           .stringify_keys])
   end
+  # rubocop:enable RSpec/ExampleLength
 
   context 'when last_published_updated_at is set' do
     let(:last_published_updated_at) { Time.zone.now }
@@ -66,6 +71,19 @@ RSpec.describe DbBlaster::Finder do
       let(:updated_at) { Time.zone.now }
 
       its(:length) { is_expected.to eq(12) }
+
+      context 'when one of the records was already published' do
+        let(:last_published_updated_at) { updated_at }
+        let(:hood_id) do
+          result = ActiveRecord::Base.connection.execute("SELECT id FROM mountains WHERE mountains.name='Hood'")
+          result[0]['id']
+        end
+
+        it 'excludes record with matching last_published_id' do
+          source_table.update(last_published_id: hood_id)
+          expect(found.detect { |record| record['name'] == 'Hood' }.nil?).to be(true)
+        end
+      end
     end
 
     context 'when max message size is exceeded' do

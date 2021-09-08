@@ -71,6 +71,7 @@ def set_default_config
     config.s3_key = nil
     config.s3_meta_format = nil
     config.s3_tags = nil
+    config.ignored_column_names = []
   end
 end
 # rubocop:enable Metrics/MethodLength
