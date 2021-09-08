@@ -1,5 +1,14 @@
 # frozen_string_literal: true
-# desc "Explaining what the task does"
-# task :db_blaster do
-#   # Task goes here
-# end
+
+require 'db_blaster'
+
+namespace :db_blaster do
+  desc 'generate table schema'
+  task generate_table_schema: :environment do
+    schema_name = 'kcp-api-schema.json'
+    puts "Generating #{schema_name}......."
+    built = DbBlaster::SourceTablesSchemaBuilder.build_schema
+    File.open(schema_name, 'w') { |f| f << built.to_json }
+    puts 'Success!'
+  end
+end
