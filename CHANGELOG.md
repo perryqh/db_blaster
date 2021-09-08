@@ -1,3 +1,6 @@
+## v0.1.7 (2021-09-08) -
+* [#24](https://github.com/perryqh/db_blaster/pull/24/files) Building table schema and avoiding duplicate publishes
+
 ## v0.1.6 (2021-09-02) -
 * [#23](https://github.com/perryqh/db_blaster/pull/23/files) Meta format option
 
