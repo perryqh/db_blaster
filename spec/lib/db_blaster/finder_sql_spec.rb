@@ -29,7 +29,7 @@ RSpec.describe DbBlaster::FinderSql do
     context 'when last_published_updated_at set' do
       let(:last_published_updated_at) { Time.zone.now }
       let(:expected_sql) do
-        last_updated = source_table.reload.last_published_updated_at.to_s(:db)
+        last_updated = source_table.reload.last_published_updated_at.strftime('%Y-%m-%d %H:%M:%S.%6N')
         where = "WHERE updated_at > '#{last_updated}'"
         where += " OR (updated_at = '#{last_updated}' AND id <> '#{source_table.reload.last_published_id}')"
         limit = "LIMIT #{source_table.batch_size}"
