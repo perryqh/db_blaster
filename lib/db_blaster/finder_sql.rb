@@ -26,7 +26,7 @@ module DbBlaster
 
       ActiveRecord::Base.sanitize_sql_for_conditions(
         ['WHERE updated_at > :updated_at OR (updated_at = :updated_at AND id <> :updated_id)',
-         { updated_at: from_updated_at.to_s(:db),
+         { updated_at: from_updated_at,
            updated_id: last_published_id }]
       )
     end

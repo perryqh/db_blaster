@@ -54,7 +54,7 @@ def mountains_insert_sql(name, height, updated_at, verbose_description)
   updated_at ||= DateTime.now
   <<-SQL.squish
       INSERT INTO MOUNTAINS (name, height, verbose_description, updated_at, created_at) 
-      VALUES ('#{name}', #{height}, '#{verbose_description}', '#{updated_at.to_s(:db)}', '#{DateTime.now.to_s(:db)}')
+      VALUES ('#{name}', #{height}, '#{verbose_description}', '#{updated_at}', '#{DateTime.now.to_s(:db)}')
   SQL
 end
 
