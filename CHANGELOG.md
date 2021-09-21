@@ -1,3 +1,6 @@
+## v0.1.8 (2021-09-21) -
+* [#31](https://github.com/perryqh/db_blaster/pull/31) Precise last updated at to avoid duplicate payloads
+
 ## v0.1.7 (2021-09-08) -
 * [#24](https://github.com/perryqh/db_blaster/pull/24/files) Building table schema and avoiding duplicate publishes
 
