@@ -17,7 +17,7 @@ module DbBlaster
 
     def build_columns_from_table_name(table_name)
       ActiveRecord::Base.connection.columns(table_name).collect do |column|
-        next if ignored_column?(column.name)
+        next if ignored_column?(table_name, column.name)
 
         { name: column.name,
           type: column.type,
@@ -25,7 +25,7 @@ module DbBlaster
       end.compact
     end
 
-    def ignored_column?(column)
+    def ignored_column?(table_name, column)
       (DbBlaster.configuration.ignored_column_names || []).include?(column)
     end
   end

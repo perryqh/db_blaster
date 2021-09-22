@@ -20,12 +20,12 @@ RSpec.describe DbBlaster::SourceTablesSchemaBuilder do
     before do
       DbBlaster.configure do |config|
         config.ignored_column_names = %w[distance phone_number]
+        config.source_table_options = [{ source_table_name: 'trails', ignored_column_names: ['name'] }]
       end
     end
 
     it 'contains columns' do
       expect(build['trails']).to match_array([{ limit: 8, name: 'id', type: :integer },
-                                              { limit: nil, name: 'name', type: :string },
                                               { limit: nil, name: 'created_at', type: :datetime },
                                               { limit: nil, name: 'updated_at', type: :datetime }])
     end
