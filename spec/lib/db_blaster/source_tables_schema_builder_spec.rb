@@ -5,7 +5,13 @@ require 'rails_helper'
 RSpec.describe DbBlaster::SourceTablesSchemaBuilder do
   subject(:build) { described_class.build_schema }
 
-  its(:keys) { is_expected.to match_array(%w[db_blaster_source_tables mountains trails]) }
+  before do
+    DbBlaster.configure do |config|
+      config.only_source_tables = ['mountains', 'trails']
+    end
+  end
+
+  its(:keys) { is_expected.to match_array(%w[mountains trails]) }
 
   it 'contains columns' do
     expect(build['trails']).to match_array([{ limit: 8, name: 'id', type: :integer },
