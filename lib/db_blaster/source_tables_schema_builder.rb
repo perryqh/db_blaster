@@ -8,25 +8,21 @@ module DbBlaster
     end
 
     def build_schema
-      ActiveRecord::Base.connection.tables.each_with_object({}) do |table_name, hash|
-        unless AvailableTables::SYSTEM_TABLES.include?(table_name)
-          hash[table_name] = build_columns_from_table_name(table_name)
-        end
+      SyncSourceTablesWithConfiguration.sync
+
+      DbBlaster::SourceTable.all.each_with_object({}) do |source_table, hash|
+        hash[source_table.name] = build_columns_from_source_table(source_table)
       end
     end
 
-    def build_columns_from_table_name(table_name)
-      ActiveRecord::Base.connection.columns(table_name).collect do |column|
-        next if ignored_column?(column.name)
+    def build_columns_from_source_table(source_table)
+      ActiveRecord::Base.connection.columns(source_table.name).collect do |column|
+        next if source_table.ignored_columns.include?(column.name)
 
         { name: column.name,
           type: column.type,
           limit: column.limit }
       end.compact
-    end
-
-    def ignored_column?(column)
-      (DbBlaster.configuration.ignored_column_names || []).include?(column)
     end
   end
 end

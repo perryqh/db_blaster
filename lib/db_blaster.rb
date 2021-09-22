@@ -16,6 +16,7 @@ require 'db_blaster/chunker'
 require 'db_blaster/finder_sql'
 require 'db_blaster/finder'
 require 'db_blaster/source_tables_schema_builder'
+require 'db_blaster/sync_source_tables_with_configuration'
 
 # Top-level module that serves as an entry point
 # into the engine gem

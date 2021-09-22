@@ -9,8 +9,7 @@ module DbBlaster
     queue_as 'default'
 
     def perform
-      SourceTable.sync(SourceTableConfigurationBuilder
-                         .build_all(DbBlaster.configuration))
+      SyncSourceTablesWithConfiguration.sync
 
       DbBlaster::SourceTable.pluck(:id).each do |source_table_id|
         PublishSourceTableJob.perform_later(source_table_id, batch_start_time)
