@@ -7,7 +7,7 @@ RSpec.describe DbBlaster::SourceTablesSchemaBuilder do
 
   before do
     DbBlaster.configure do |config|
-      config.only_source_tables = ['mountains', 'trails']
+      config.only_source_tables = %w[mountains trails]
     end
   end
 
@@ -32,6 +32,8 @@ RSpec.describe DbBlaster::SourceTablesSchemaBuilder do
 
     it 'contains columns' do
       expect(build['trails']).to match_array([{ limit: 8, name: 'id', type: :integer },
+                                              { limit: 4, name: 'distance', type: :integer },
+                                              { limit: nil, name: 'phone_number', type: :string },
                                               { limit: nil, name: 'created_at', type: :datetime },
                                               { limit: nil, name: 'updated_at', type: :datetime }])
     end
