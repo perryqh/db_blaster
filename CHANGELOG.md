@@ -1,3 +1,6 @@
+## v0.1.9 (2021-09-21) -
+* [#32](https://github.com/perryqh/db_blaster/pull/32) Smarter schema
+
 ## v0.1.8 (2021-09-21) -
 * [#31](https://github.com/perryqh/db_blaster/pull/31) Precise last updated at to avoid duplicate payloads
 
