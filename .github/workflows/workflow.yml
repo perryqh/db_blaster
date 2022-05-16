@@ -80,7 +80,7 @@ jobs:
           echo "TEST_COVERAGE=$(echo "`cat coverage/.last_run.json | jq -r .result.line`")" >> $GITHUB_ENV
         id: find-test-coverage
       - name: Create Awesome Badge
-        uses: schneegans/dynamic-badges-action@v1.1.0
+        uses: schneegans/dynamic-badges-action@v1.4.0
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: be2fa5413124206272dbc700f3201f5a
